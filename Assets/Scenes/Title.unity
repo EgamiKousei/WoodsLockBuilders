@@ -172,6 +172,7 @@ MonoBehaviour:
     type: 3}
   doorPrefab: {fileID: 44661985242333274, guid: 4a2dd93b6b1ba304fa9fe860426ac3c5,
     type: 3}
+  Cams: {fileID: 1553382377}
   FadeLight: {fileID: 305440516}
 --- !u!1001 &83085200
 PrefabInstance:

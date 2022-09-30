@@ -14,11 +14,16 @@ public class LoginManager : MonoBehaviour
     GameObject LeftDoor;
     GameObject RightDoor;
 
+    public Camera Cams;
+
     public Image FadeLight;
     bool Logined = false;
     bool CanGamestart = false;
+    bool ZoomStart = false;
+    bool DoorPushed = false;
     float posZ = 0.1f;//移動速度
     int CurrentBlock = 1;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +46,8 @@ public class LoginManager : MonoBehaviour
             Instantiate(woodsPrefab, pos, Quaternion.identity);
             CurrentBlock += 1;
         }
+
+        ZoomCam();
     }
 
     public void PushLoginButton()
@@ -54,22 +61,22 @@ public class LoginManager : MonoBehaviour
         Instantiate(doorPrefab, doorPos, Quaternion.identity);
         Invoke("CamStop", 8);
 
-        
     }
 
     void PushDoor()
     {
-        if (Input.GetMouseButtonDown(0) && CanGamestart == true)//ログイン済みかつカメラが止まっているとゲームスタート
+        if (Input.GetMouseButtonDown(0) && CanGamestart == true && DoorPushed == false)//ログイン済みかつカメラが止まっているとゲームスタート
         {
             RightDoor = GameObject.Find("RightDoor");
             LeftDoor = GameObject.Find("LeftDoor");
-
             RightDoor.transform.DORotate(new Vector3(0, -95, 0f), 4f);
             LeftDoor.transform.DORotate(new Vector3(0, 95, 0f), 4f);
             FadeLight.DOFade(endValue: 1f, duration: 2.5f);
+            ZoomStart = true;
+            DoorPushed = true;
         }
 
-        
+
     }
 
     void CamStop()
@@ -77,4 +84,18 @@ public class LoginManager : MonoBehaviour
         posZ = 0;
         CanGamestart = true;
     }
+
+    void ZoomCam()
+    {
+        if (ZoomStart == true)
+        {
+
+            Cams.fieldOfView -= 0.3f;
+            if (Cams.fieldOfView <= 5)
+            {
+                ZoomStart = false;
+            }
+        }
+    }
+
 }
