@@ -36,7 +36,7 @@ public class PlayerMulti : MonoBehaviour
         recieveCompletedHandler += OnReciveMessage;
 
         // 自プレイヤーの初期情報をWebSocketに送信
-        Multicast.SendPlayerAction("connect", Vector3.zero, this.transform.rotation.y, "neutral", 0.0f);
+        Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y);
     }
 
     /*private void OnDestroy()

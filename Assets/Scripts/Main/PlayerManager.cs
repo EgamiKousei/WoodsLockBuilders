@@ -22,7 +22,10 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
+            Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +42,8 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else
         {
+            if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.D)|| Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.A))
+                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
             if (Input.GetKey(KeyCode.W))
                 rb.AddForce(transform.forward* PlayerSpeed, ForceMode.Force);  // ‘O
             if (Input.GetKey(KeyCode.D))
