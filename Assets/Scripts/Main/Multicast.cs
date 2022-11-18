@@ -94,7 +94,6 @@ public class Multicast : MonoBehaviour
                 byte[] data = new byte[200];
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
-                Debug.Log(json);
                 JObject deserialized = JObject.Parse(json);
                 var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
                 PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
