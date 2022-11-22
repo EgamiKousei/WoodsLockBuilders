@@ -41,11 +41,6 @@ public class PlayerMulti : MonoBehaviour
         Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y);
     }
 
-    /*private void OnDestroy()
-    {
-        Multicast.SendPlayerAction("disconnect", Vector3.zero, player.transform.rotation.y, "neutral", 0.0f);
-    }*/
-
     /// <summary>
     ///  (ユーザーの行動情報)受信メソッド
     /// </summary>
@@ -99,6 +94,7 @@ public class PlayerMulti : MonoBehaviour
             }
             else
             {
+                Debug.Log(playerAction.user);
                 // 他プレイヤーの作成
                 var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user);
 
@@ -124,7 +120,6 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
-        Debug.Log(name);
         return player;
     }
 }

@@ -17,13 +17,7 @@ public class Multicast : MonoBehaviour
 
     private string add;
     private Thread rcvThread; //受信用スレッド
-    void Start()
-    {
-        DontDestroyOnLoad(this);
-        StartMulti();
-    }
-
-    public void StartMulti()
+    void Awake()
     {
         // ホスト名からIPアドレスを取得する
         IPAddress[] adrList = Dns.GetHostAddresses(Dns.GetHostName());
@@ -41,7 +35,6 @@ public class Multicast : MonoBehaviour
         rcvThread = new Thread(new ThreadStart(receive));//受信スレッド生成
         rcvThread.Start();//受信スレッド開始*
     }
-
     private void startMulticast()
     {
         try
@@ -95,6 +88,7 @@ public class Multicast : MonoBehaviour
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
                 JObject deserialized = JObject.Parse(json);
+                Debug.Log(deserialized);
                 var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
                 PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
             }
