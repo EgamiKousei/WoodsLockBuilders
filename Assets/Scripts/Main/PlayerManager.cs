@@ -8,8 +8,8 @@ public class PlayerManager : MonoBehaviour
     public float NomalSpeed = 200f;
     public float SprintSpeed = 350f;
     float PlayerSpeed;
-    public float Gravi=100f;
-    public float JumpGravi = 100f;
+    public static float Gravi=100f;
+    public static float JumpGravi = 100f;
 
     Rigidbody rb;//リギッドボディ
 
@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("move", transform.position, transform.rotation.y,"jump",PlayerSpeed);
+            Multicast.SendPlayerAction("jump", transform.position, transform.rotation.y);
         }
     }
 
@@ -42,28 +42,16 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else
         {
-            //if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.D)|| Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.A))
-            //    Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
+            if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.D)|| Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.A))
+                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
             if (Input.GetKey(KeyCode.W)) 
-            {
                 rb.AddForce(transform.forward* PlayerSpeed, ForceMode.Force);  // 前   
-                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y,"up", PlayerSpeed);
-            }
             if (Input.GetKey(KeyCode.D))
-            {
                 rb.AddForce(transform.right * PlayerSpeed, ForceMode.Force);  // 右
-                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y, "right", PlayerSpeed);
-            }
             if (Input.GetKey(KeyCode.S))
-            {
                 rb.AddForce(-transform.forward * PlayerSpeed, ForceMode.Force);  // 後
-                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y, "down", PlayerSpeed);
-            }
             if (Input.GetKey(KeyCode.A))
-            {
                 rb.AddForce(-transform.right * PlayerSpeed, ForceMode.Force);  // 左
-                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y, "left", PlayerSpeed);
-            }
         }
     }
 }

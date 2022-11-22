@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData : MonoBehaviour
+public class OtherPlayer : MonoBehaviour
 {
-    public static string PlayerName="test2";
+
+    Rigidbody rb;//リギッドボディ
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        rb.AddForce(new Vector3(0, -PlayerManager.Gravi, 0));
     }
-}
+    }

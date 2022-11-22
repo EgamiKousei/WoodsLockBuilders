@@ -15,6 +15,8 @@ public class PlayerMulti : MonoBehaviour
 
     public static UnityAction<Dictionary<string, PlayerActionData>> recieveCompletedHandler;
 
+    Rigidbody rb;
+
     /// 定期更新
     /// </summary>
     void Update()
@@ -36,7 +38,7 @@ public class PlayerMulti : MonoBehaviour
         recieveCompletedHandler += OnReciveMessage;
 
         // 自プレイヤーの初期情報をWebSocketに送信
-        Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y, "neutral", 0.0f);
+        Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y);
     }
 
     /*private void OnDestroy()
@@ -77,13 +79,21 @@ public class PlayerMulti : MonoBehaviour
             // 入室中の他プレイヤーの移動
             if (playerObjectMap.ContainsKey(playerAction.user))
             {
-                playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x,playerAction.pos_y,playerAction.pos_z);
-                //playerObjectMap[playerAction.user].transform.position = GetMovePos(playerAction);
+                switch (playerAction.action)
+                {
+                    case "jump":
+                        rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
+                        rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
+                        break;
+                    default:
+                        playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
 
-                //ローテーションの追加
-                var tes = playerObjectMap[playerAction.user].transform.rotation;
-                tes.y =playerAction.rote_y;
-                playerObjectMap[playerAction.user].transform.rotation =tes;
+                        //ローテーションの追加
+                        var tes = playerObjectMap[playerAction.user].transform.rotation;
+                        tes.y = playerAction.rote_y;
+                        playerObjectMap[playerAction.user].transform.rotation = tes;
+                        break;
+                }
 
                 // 入室中した他プレイヤーの生成
             }
@@ -116,16 +126,5 @@ public class PlayerMulti : MonoBehaviour
         otherNameText.GetComponent<TextMesh>().text = name;
         Debug.Log(name);
         return player;
-    }
-
-    private Vector3 GetMovePos(PlayerActionData playerAction)
-    {
-        var pos = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
-        pos.z += (playerAction.way == "up") ? playerAction.range : 0;
-        pos.z -= (playerAction.way == "down") ? playerAction.range : 0;
-        pos.x -= (playerAction.way == "left") ? playerAction.range : 0;
-        pos.x += (playerAction.way == "right") ? playerAction.range : 0;
-        //pos.y += (playerAction.way == "jump") ? playerAction.range : 0;
-        return pos;
     }
 }
