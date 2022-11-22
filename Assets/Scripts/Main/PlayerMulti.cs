@@ -77,8 +77,8 @@ public class PlayerMulti : MonoBehaviour
             // 入室中の他プレイヤーの移動
             if (playerObjectMap.ContainsKey(playerAction.user))
             {
-                //playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x,playerAction.pos_y,playerAction.pos_z);
-                playerObjectMap[playerAction.user].transform.position = GetMovePos(playerAction);
+                playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x,playerAction.pos_y,playerAction.pos_z);
+                //playerObjectMap[playerAction.user].transform.position = GetMovePos(playerAction);
 
                 //ローテーションの追加
                 var tes = playerObjectMap[playerAction.user].transform.rotation;
