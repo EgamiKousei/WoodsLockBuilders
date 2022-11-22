@@ -50,6 +50,7 @@ public class PlayerActionData
         var PlayerActionData = new PlayerActionData
         {
             user = jsonHash["user"].ToString(),
+            action = jsonHash["action"].ToString(),
             pos_x = float.Parse(jsonHash["pos_x"].ToString()),
             pos_y = float.Parse(jsonHash["pos_y"].ToString()),
             pos_z = float.Parse(jsonHash["pos_z"].ToString()),
