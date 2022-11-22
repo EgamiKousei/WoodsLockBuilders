@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     public static float Gravi=100f;
     public static float JumpGravi = 100f;
 
+    private bool isGround=true;
+
     Rigidbody rb;//リギッドボディ
 
     // Start is called before the first frame update
@@ -21,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGround)
         {
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
             Multicast.SendPlayerAction("jump", transform.position, transform.rotation.y);
@@ -53,5 +55,17 @@ public class PlayerManager : MonoBehaviour
             if (Input.GetKey(KeyCode.A))
                 rb.AddForce(-transform.right * PlayerSpeed, ForceMode.Force);  // 左
         }
+    }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Plane")
+            isGround = true;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Plane")
+            isGround = false;
     }
 }

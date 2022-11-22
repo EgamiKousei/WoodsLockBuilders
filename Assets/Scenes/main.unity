@@ -455,8 +455,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NomalSpeed: 200
   SprintSpeed: 350
-  Gravi: 100
-  JumpGravi: 100
 --- !u!114 &114461527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,7 +762,7 @@ GameObject:
   - component: {fileID: 1146258775}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

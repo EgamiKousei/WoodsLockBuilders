@@ -77,10 +77,10 @@ public class PlayerMulti : MonoBehaviour
                 Debug.Log(playerAction.action);
                 switch (playerAction.action)
                 {
-                    //case "jump":
-                        //rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
-                        //rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
-                    //    break;
+                    case "jump":
+                        rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
+                        rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
+                        break;
                     default:
                         playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
 
