@@ -36,7 +36,7 @@ public class PlayerMulti : MonoBehaviour
         recieveCompletedHandler += OnReciveMessage;
 
         // 自プレイヤーの初期情報をWebSocketに送信
-        Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y);
+        Multicast.SendPlayerAction("connect", Vector3.zero, transform.rotation.y, "neutral", 0.0f);
     }
 
     /*private void OnDestroy()
@@ -77,7 +77,9 @@ public class PlayerMulti : MonoBehaviour
             // 入室中の他プレイヤーの移動
             if (playerObjectMap.ContainsKey(playerAction.user))
             {
-                playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x,playerAction.pos_y,playerAction.pos_z);
+                //playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x,playerAction.pos_y,playerAction.pos_z);
+                playerObjectMap[playerAction.user].transform.position = GetMovePos(playerAction);
+
                 //ローテーションの追加
                 var tes = playerObjectMap[playerAction.user].transform.rotation;
                 tes.y =playerAction.rote_y;
@@ -114,5 +116,16 @@ public class PlayerMulti : MonoBehaviour
         otherNameText.GetComponent<TextMesh>().text = name;
         Debug.Log(name);
         return player;
+    }
+
+    private Vector3 GetMovePos(PlayerActionData playerAction)
+    {
+        var pos = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+        pos.z += (playerAction.way == "up") ? playerAction.range : 0;
+        pos.z -= (playerAction.way == "down") ? playerAction.range : 0;
+        pos.x -= (playerAction.way == "left") ? playerAction.range : 0;
+        pos.x += (playerAction.way == "right") ? playerAction.range : 0;
+
+        return pos;
     }
 }

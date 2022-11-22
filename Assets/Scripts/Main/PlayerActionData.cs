@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 public class PlayerActionData
 {
@@ -25,6 +26,12 @@ public class PlayerActionData
 
     [JsonProperty("rote_y")]
     public float rote_y;
+
+    [JsonProperty("way")]
+    public string way;
+
+    [JsonProperty("range")]
+    public float range;
 
     /// クライアントからサーバへ送信するデータをJSON形式に変換
     public string ToJson()
@@ -53,6 +60,8 @@ public class PlayerActionData
             pos_y = float.Parse(jsonHash["pos_y"].ToString()),
             pos_z = float.Parse(jsonHash["pos_z"].ToString()),
             rote_y = float.Parse(jsonHash["rote_y"].ToString()),
+            way = jsonHash["way"].ToString(),
+            range = float.Parse(jsonHash["range"].ToString()),
         };
         playerActionHash.Add(PlayerActionData.user, PlayerActionData);
         return playerActionHash;

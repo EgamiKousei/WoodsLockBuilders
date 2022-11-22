@@ -104,7 +104,7 @@ public class Multicast : MonoBehaviour
             Debug.Log(e);
         }
     }
-    public static void SendPlayerAction(string action, Vector3 pos,float rote_y) //文字列を送信用ポートから送信先ポートに送信
+    public static void SendPlayerAction(string action, Vector3 pos,float rote_y, string way, float range) //文字列を送信用ポートから送信先ポートに送信
     {
         try
         {
@@ -116,7 +116,9 @@ public class Multicast : MonoBehaviour
                 pos_x = pos.x,
                 pos_y = pos.y,
                 pos_z = pos.z,
-                rote_y = rote_y,//ローテーションの追加
+                rote_y = rote_y,
+                way = way,
+                range = range,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(userActionData.ToJson());
             IPEndPoint ClientOriginatordest = new IPEndPoint(mcastAddress, mcastPort);
