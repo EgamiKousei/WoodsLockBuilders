@@ -125,7 +125,7 @@ public class PlayerMulti : MonoBehaviour
         pos.z -= (playerAction.way == "down") ? playerAction.range : 0;
         pos.x -= (playerAction.way == "left") ? playerAction.range : 0;
         pos.x += (playerAction.way == "right") ? playerAction.range : 0;
-
+        //pos.y += (playerAction.way == "jump") ? playerAction.range : 0;
         return pos;
     }
 }

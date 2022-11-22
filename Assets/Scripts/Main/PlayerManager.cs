@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
+            Multicast.SendPlayerAction("move", transform.position, transform.rotation.y,"jump",PlayerSpeed);
         }
     }
 
