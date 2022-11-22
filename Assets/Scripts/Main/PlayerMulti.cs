@@ -69,8 +69,7 @@ public class PlayerMulti : MonoBehaviour
         }*/
         // プレイヤーの位置を更新
         foreach (var playerAction in PlayerActionMap.Values)
-        {
-            // 自分は移動済みなのでスルー
+        {            // 自分は移動済みなのでスルー
             if (PlayerData.PlayerName == playerAction.user)
             {
                 continue;
@@ -113,7 +112,7 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
-
+        Debug.Log(name);
         return player;
     }
 }

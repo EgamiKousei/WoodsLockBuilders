@@ -40,7 +40,7 @@ public class PlayerActionData
         var playerActionHash = new Dictionary<string, PlayerActionData>();
 
         // json‚Ì’†‚ÉŠY“–‚Ìƒ‹[ƒ€”Ô†‚Ìî•ñ‚ª‚È‚¯‚ê‚Î‹ó‚ÌDictionary‚ğ•Ô‹p
-        if (Convert.ToInt32(jsonHash["room_no"]) != roomNo)
+        if (Convert.ToInt32(jsonHash["room_id"]) != roomNo)
         {
             return playerActionHash;
         }
