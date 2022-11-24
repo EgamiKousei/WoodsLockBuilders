@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoginManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class LoginManager : MonoBehaviour
     float posZ = 0.1f;//ˆÚ“®‘¬“x
     int CurrentBlock = 1;
 
+    public GameObject Rogin;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +48,6 @@ public class LoginManager : MonoBehaviour
             Instantiate(woodsPrefab, pos, Quaternion.identity);
             CurrentBlock += 1;
         }
-
         ZoomCam();
     }
 
@@ -54,13 +55,14 @@ public class LoginManager : MonoBehaviour
     {
         SpawnDoor();
     }
-    void SpawnDoor()
+
+    public void SpawnDoor()
     {
+        Rogin.SetActive(false);
         Logined = true;
         Vector3 doorPos = Cam.transform.position += new Vector3(0.0f, 0, 50.0f);
         Instantiate(doorPrefab, doorPos, Quaternion.identity);
         Invoke("CamStop", 8);
-
     }
 
     void PushDoor()
@@ -74,9 +76,13 @@ public class LoginManager : MonoBehaviour
             FadeLight.DOFade(endValue: 1f, duration: 2.5f);
             ZoomStart = true;
             DoorPushed = true;
+            Invoke("Login", 5);
         }
+    }
 
-
+    public void Login()
+    {
+        SceneManager.LoadScene("Main");
     }
 
     void CamStop()
@@ -85,16 +91,14 @@ public class LoginManager : MonoBehaviour
         CanGamestart = true;
     }
 
+
     void ZoomCam()
     {
         if (ZoomStart == true)
         {
-
             Cams.fieldOfView -= 0.3f;
             if (Cams.fieldOfView <= 5)
-            {
                 ZoomStart = false;
-            }
         }
     }
 

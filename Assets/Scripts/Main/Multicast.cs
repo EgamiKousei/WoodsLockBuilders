@@ -63,6 +63,11 @@ public class Multicast : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Multicast.SendPlayerAction("login", Vector3.zero, 0.0f);
+    }
+
     private void MulticastOptionProperties()
     {
         if (mcastOption != null)
@@ -88,8 +93,13 @@ public class Multicast : MonoBehaviour
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
                 JObject deserialized = JObject.Parse(json);
-                var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
-                PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
+                switch (deserialized["action"].ToString())
+                {
+                    default:
+                        var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
+                        PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
+                        break;
+                }
             }
         }
         catch (Exception e)
