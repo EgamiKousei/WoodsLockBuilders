@@ -126,6 +126,5 @@ public class MainManager : MonoBehaviour
     private void AttackEnd()
     {
         _animator.SetBool("Attack", false);
-        Multicast.SendPlayerAction("AttackEnd", transform.position, transform.rotation.y);
     }
 }

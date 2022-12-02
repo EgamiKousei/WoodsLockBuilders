@@ -104,10 +104,7 @@ public class PlayerMulti : MonoBehaviour
                     case "Attack":
                         Debug.Log("開始");
                         anim.SetBool("Attack", true);
-                        break;
-                    case "AttackEnd":
-                        Debug.Log("エンド");
-                        anim.SetBool("Attack", false);
+                        StartCoroutine(AttackEnd(anim));
                         break;
                 }
 
@@ -122,6 +119,11 @@ public class PlayerMulti : MonoBehaviour
                 playerObjectMap.Add(playerAction.user, player);
             }
         }
+    }
+    private IEnumerator AttackEnd(Animator anim)
+    {
+        yield return new WaitForSeconds(0.45f);
+        anim.SetBool("Attack", false);
     }
 
     // プレイヤーを作成
