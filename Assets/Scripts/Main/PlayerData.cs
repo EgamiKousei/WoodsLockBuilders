@@ -33,7 +33,7 @@ public class PlayerData : MonoBehaviour
     private string SavePash;
 
     //名前
-    public static string PlayerName = "test";
+    public static string PlayerName = "test2";
 
     //プレイ部屋データ
     //時間帯データ（ルームマスター中機能）
