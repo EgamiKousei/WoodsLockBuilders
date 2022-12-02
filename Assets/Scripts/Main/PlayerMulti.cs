@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,6 +20,7 @@ public class PlayerMulti : MonoBehaviour
 
     Rigidbody rb;
     Animator anim;
+    private CancellationTokenSource _cts;
 
     // 定期更新
     void Update()
@@ -39,7 +42,7 @@ public class PlayerMulti : MonoBehaviour
         recieveCompletedHandler += OnReciveMessage;
 
         // 自プレイヤーの初期情報をWebSocketに送信
-        Multicast.SendPlayerAction("connect", new Vector3(0,0.5f,-20f), transform.rotation.y);
+        Multicast.SendPlayerAction("connect", new Vector3(0,0.5f,-20f), transform.rotation.y,0);
     }
 
     //  (ユーザーの行動情報)受信メソッド
@@ -73,11 +76,11 @@ public class PlayerMulti : MonoBehaviour
             if (playerObjectMap.ContainsKey(playerAction.user))
             {
                 anim = playerObjectMap[playerAction.user].GetComponent<Animator>();
+                rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
                 switch (playerAction.action)
                 {
                     case "Jump":
                         anim.SetBool("Jump", true);
-                        rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
                         rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
                         break;
                     case "JumpEnd":
@@ -85,18 +88,22 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "MoveEnd":
                         anim.SetBool("Move", false);
+                        _cts.Cancel();
                         break;
                     case "logout":
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
                         break;
                     case "Move":
-                        playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+                        //playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
                         anim.SetBool("Move", true);
                         //ローテーションの追加
                         var tes = playerObjectMap[playerAction.user].transform.rotation;
                         tes.y = playerAction.rote_y;
                         playerObjectMap[playerAction.user].transform.rotation = tes;
+
+                        _cts = new CancellationTokenSource();
+                        Task.Run(() => Run(_cts.Token,playerAction.spead,rb));
                         break;
                     case "Attack":
                         anim.SetBool("Attack", true);
@@ -118,6 +125,15 @@ public class PlayerMulti : MonoBehaviour
             }
         }
     }
+
+    private void Run(CancellationToken token,float spead,Rigidbody rb)
+    {
+        while (true)
+        {
+            rb.AddForce(transform.forward * spead, ForceMode.Force);  // 前   
+        }
+    }
+
 
     // プレイヤーを作成
     private GameObject MakePlayer(Vector3 pos, string name)

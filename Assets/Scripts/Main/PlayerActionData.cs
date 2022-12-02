@@ -27,6 +27,9 @@ public class PlayerActionData
     [JsonProperty("rote_y")]
     public float rote_y;
 
+    [JsonProperty("spead")]
+    public float spead;
+
     /// クライアントからサーバへ送信するデータをJSON形式に変換
     public string ToJson()
     {
@@ -55,6 +58,7 @@ public class PlayerActionData
             pos_y = float.Parse(jsonHash["pos_y"].ToString()),
             pos_z = float.Parse(jsonHash["pos_z"].ToString()),
             rote_y = float.Parse(jsonHash["rote_y"].ToString()),
+            spead= float.Parse(jsonHash["spead"].ToString()),
         };
         playerActionHash.Add(PlayerActionData.user, PlayerActionData);
         return playerActionHash;

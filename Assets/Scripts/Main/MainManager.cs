@@ -68,7 +68,7 @@ public class MainManager : MonoBehaviour
                     {
                         _animator.SetBool("Attack", true);
                         Invoke("AttackEnd", 0.45f);
-                        Multicast.SendPlayerAction("Attack", transform.position, transform.rotation.y);
+                        Multicast.SendPlayerAction("Attack", transform.position, transform.rotation.y,0);
                     }
                     break;
                 case "‹|":
