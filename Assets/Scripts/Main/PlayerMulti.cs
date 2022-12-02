@@ -123,7 +123,7 @@ public class PlayerMulti : MonoBehaviour
     private GameObject MakePlayer(Vector3 pos, string name)
     {
         // プレイヤーのリソース(プレハブ)を取得 ※初回のみ
-        playerPrefab = playerPrefab ?? (GameObject)Resources.Load("SphPlayer");
+        playerPrefab = playerPrefab ?? (GameObject)Resources.Load("OtherPlayer");
 
         // プレイヤーを生成
         var player = Instantiate(playerPrefab, pos, Quaternion.identity);
