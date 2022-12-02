@@ -7,8 +7,8 @@ public class CameraManager : MonoBehaviour
     //private float zoomSpeed = 1; // カメラ移動スピード
 
     //カメラ上下移動の最大、最小角度
-    private float maxYAngle = -0.08f;
-    private float minYAngle = 0.08f;
+    private float maxYAngle = -0.15f;
+    private float minYAngle = 0.30f;
 
     //カメラの操作状態
     public enum Camera
@@ -72,11 +72,6 @@ public class CameraManager : MonoBehaviour
                 break;
 
         }
-
-
-        //マウススクロール処理
-        /*var scroll = Input.mouseScrollDelta.y;
-        transform.position += -transform.forward * scroll * zoomSpeed;*/
     }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,29 +6,47 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     //移動速度の定義
-    public float NomalSpeed = 200f;
-    public float SprintSpeed = 350f;
+     float NomalSpeed = 300f;
+     float SprintSpeed = 400f;
     float PlayerSpeed;
     public static float Gravi=100f;
     public static float JumpGravi = 100f;
 
-    private bool isGround=true;
-
     Rigidbody rb;//リギッドボディ
 
-    // Start is called before the first frame update
+    private Animator _animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (Input.GetKeyDown(KeyCode.Space)&& _animator.GetBool("Jump")==false)
         {
+            _animator.SetBool("Jump", true);
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("jump", transform.position, transform.rotation.y);
+            Multicast.SendPlayerAction("Jump", transform.position, transform.rotation.y);
+            Invoke("JumpEnd", 0.8f);
         }
+
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.A))
+        {
+            _animator.SetBool("Move", false);
+            Multicast.SendPlayerAction("MoveEnd", transform.position, transform.rotation.y);
+        }
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
+        {
+            _animator.SetBool("Move", true);
+            Multicast.SendPlayerAction("Move", transform.position, transform.rotation.y);
+        }
+    }
+    void JumpEnd()
+    {
+        _animator.SetBool("Jump", false);
+        Multicast.SendPlayerAction("JumpEnd", transform.position, transform.rotation.y);
     }
 
     // Update is called once per frame
@@ -44,8 +63,6 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else
         {
-            if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.D)|| Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.A))
-                Multicast.SendPlayerAction("move", transform.position, transform.rotation.y);
             if (Input.GetKey(KeyCode.W)) 
                 rb.AddForce(transform.forward* PlayerSpeed, ForceMode.Force);  // 前   
             if (Input.GetKey(KeyCode.D))
@@ -55,17 +72,5 @@ public class PlayerManager : MonoBehaviour
             if (Input.GetKey(KeyCode.A))
                 rb.AddForce(-transform.right * PlayerSpeed, ForceMode.Force);  // 左
         }
-    }
-    
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Plane")
-            isGround = true;
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "Plane")
-            isGround = false;
     }
 }

@@ -92,7 +92,7 @@ public class LoginMulti : MonoBehaviour
         {
             PlayerData.PlayerName = name.text;
             //ルームデータ受け取り要請　SendPlayerAction
-            GetComponent<LoginManager>().SpawnDoor();
+            GetComponent<LoginManager>().SpawnDoor();//受けとって判定後
         }
     }
 
@@ -112,10 +112,10 @@ public class LoginMulti : MonoBehaviour
                 switch (deserialized["action"].ToString())
                 {
                     case "login":
-                        //ルームデータ受け渡し
+                        //ルームデータ、名前リスト受け渡し
                         break;
                     case "dataSend":
-                        //ルームデータ受け取り
+                        //ルームデータ、名前リスト受け取り。同じ名前の人がいないか判定
                         break;
                 }
             }
