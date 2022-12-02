@@ -15,20 +15,14 @@ public class PlayerActionData
     [JsonProperty("user")]
     public string user;
 
-    [JsonProperty("pos_x")]
-    public float pos_x;
-
-    [JsonProperty("pos_y")]
-    public float pos_y;
-
-    [JsonProperty("pos_z")]
-    public float pos_z;
-
     [JsonProperty("rote_y")]
     public float rote_y;
 
     [JsonProperty("spead")]
     public float spead;
+
+    [JsonProperty("direction")]
+    public string direction;
 
     /// クライアントからサーバへ送信するデータをJSON形式に変換
     public string ToJson()
@@ -54,11 +48,9 @@ public class PlayerActionData
         {
             user = jsonHash["user"].ToString(),
             action = jsonHash["action"].ToString(),
-            pos_x = float.Parse(jsonHash["pos_x"].ToString()),
-            pos_y = float.Parse(jsonHash["pos_y"].ToString()),
-            pos_z = float.Parse(jsonHash["pos_z"].ToString()),
             rote_y = float.Parse(jsonHash["rote_y"].ToString()),
             spead= float.Parse(jsonHash["spead"].ToString()),
+            direction= jsonHash["direction"].ToString(),
         };
         playerActionHash.Add(PlayerActionData.user, PlayerActionData);
         return playerActionHash;

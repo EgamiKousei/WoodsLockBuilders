@@ -42,7 +42,7 @@ public class PlayerMulti : MonoBehaviour
         recieveCompletedHandler += OnReciveMessage;
 
         // 自プレイヤーの初期情報をWebSocketに送信
-        Multicast.SendPlayerAction("connect", new Vector3(0,0.5f,-20f), transform.rotation.y,0);
+        Multicast.SendPlayerAction("connect", transform.rotation.y,0,"");
     }
 
     //  (ユーザーの行動情報)受信メソッド
@@ -88,7 +88,6 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "MoveEnd":
                         anim.SetBool("Move", false);
-                        _cts.Cancel();
                         break;
                     case "logout":
                         Destroy(playerObjectMap[playerAction.user]);
@@ -101,9 +100,26 @@ public class PlayerMulti : MonoBehaviour
                         var tes = playerObjectMap[playerAction.user].transform.rotation;
                         tes.y = playerAction.rote_y;
                         playerObjectMap[playerAction.user].transform.rotation = tes;
-
-                        _cts = new CancellationTokenSource();
-                        Task.Run(() => Run(_cts.Token,playerAction.spead,rb));
+                        if (rb.velocity.magnitude > playerAction.spead)
+                            rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
+                        else
+                        {
+                            switch (playerAction.direction)
+                            {
+                                case "W":
+                                    rb.AddForce(transform.forward * playerAction.spead, ForceMode.Force);  // 前   
+                                    break;
+                                case "D":
+                                    rb.AddForce(transform.right * playerAction.spead, ForceMode.Force);  // 前   
+                                    break;
+                                case "S":
+                                    rb.AddForce(-transform.forward * playerAction.spead, ForceMode.Force);  // 前   
+                                    break;
+                                case "A":
+                                    rb.AddForce(-transform.right * playerAction.spead, ForceMode.Force);  // 前   
+                                    break;
+                            }
+                        }
                         break;
                     case "Attack":
                         anim.SetBool("Attack", true);
@@ -118,24 +134,13 @@ public class PlayerMulti : MonoBehaviour
             else
             {
                 // 他プレイヤーの作成
-                var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user);
+                var player = MakePlayer(new Vector3(0, 0, -20), playerAction.user);
 
                 // 他プレイヤーリストへの追加
                 playerObjectMap.Add(playerAction.user, player);
             }
         }
     }
-
-    private void Run(CancellationToken token,float spead,Rigidbody rb)
-    {
-        Debug.Log("スレッド開始");
-        while (true)
-        {
-            rb.AddForce(transform.forward * spead, ForceMode.Force);  // 前   
-            Debug.Log("スレッド実行");
-        }
-    }
-
 
     // プレイヤーを作成
     private GameObject MakePlayer(Vector3 pos, string name)

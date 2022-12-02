@@ -28,13 +28,13 @@ public class PlayerManager : MonoBehaviour
         {
             _animator.SetBool("Jump", true);
             rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("Jump", transform.position, transform.rotation.y,0);
+            Multicast.SendPlayerAction("Jump", transform.rotation.y,0,"");
             Invoke("JumpEnd", 0.8f);
         }
 
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.A))
         {
-            Multicast.SendPlayerAction("MoveEnd", transform.position, transform.rotation.y,0);
+            Multicast.SendPlayerAction("MoveEnd", transform.rotation.y,0,"");
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -45,7 +45,6 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
         {
             _animator.SetBool("Move", true);
-            Multicast.SendPlayerAction("Move", transform.position, transform.rotation.y, PlayerSpeed);
         }
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A))
@@ -54,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     void JumpEnd()
     {
         _animator.SetBool("Jump", false);
-        Multicast.SendPlayerAction("JumpEnd", transform.position, transform.rotation.y,0);
+        Multicast.SendPlayerAction("JumpEnd", transform.rotation.y,0,"");
     }
 
     // Update is called once per frame
@@ -65,14 +64,23 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else
         {
-            if (Input.GetKey(KeyCode.W)) 
-                rb.AddForce(transform.forward* PlayerSpeed, ForceMode.Force);  // ëO   
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.W))
+            {
+                rb.AddForce(transform.forward * PlayerSpeed, ForceMode.Force);  // ëO
+                Multicast.SendPlayerAction("Move", transform.rotation.y, PlayerSpeed,"W");
+            }
+            if (Input.GetKey(KeyCode.D)) {
                 rb.AddForce(transform.right * PlayerSpeed, ForceMode.Force);  // âE
-            if (Input.GetKey(KeyCode.S))
+                Multicast.SendPlayerAction("Move", transform.rotation.y, PlayerSpeed, "D");
+            }
+            if (Input.GetKey(KeyCode.S)) {
                 rb.AddForce(-transform.forward * PlayerSpeed, ForceMode.Force);  // å„
-            if (Input.GetKey(KeyCode.A))
+                Multicast.SendPlayerAction("Move", transform.rotation.y, PlayerSpeed, "S");
+            }
+            if (Input.GetKey(KeyCode.A)) {
                 rb.AddForce(-transform.right * PlayerSpeed, ForceMode.Force);  // ç∂
+                Multicast.SendPlayerAction("Move", transform.rotation.y, PlayerSpeed, "A");
+            }
         }
     }
 }
