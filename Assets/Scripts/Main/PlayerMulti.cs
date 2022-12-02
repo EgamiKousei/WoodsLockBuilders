@@ -102,9 +102,11 @@ public class PlayerMulti : MonoBehaviour
                         anim.SetBool("Move", true);
                         break;
                     case "Attack":
+                        Debug.Log("開始");
                         anim.SetBool("Attack", true);
                         break;
                     case "AttackEnd":
+                        Debug.Log("エンド");
                         anim.SetBool("Attack", false);
                         break;
                 }

@@ -67,8 +67,8 @@ public class MainManager : MonoBehaviour
                     if (Input.GetMouseButtonDown(0))
                     {
                         _animator.SetBool("Attack", true);
-                        Invoke("AttackEnd", 0.45f);
                         Multicast.SendPlayerAction("Attack", transform.position, transform.rotation.y);
+                        Invoke("AttackEnd", 0.45f);
                     }
                     break;
                 case "‹|":
@@ -125,7 +125,7 @@ public class MainManager : MonoBehaviour
 
     private void AttackEnd()
     {
-            _animator.SetBool("Attack", false);
+        _animator.SetBool("Attack", false);
         Multicast.SendPlayerAction("AttackEnd", transform.position, transform.rotation.y);
     }
 }
