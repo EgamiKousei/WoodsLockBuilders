@@ -94,7 +94,7 @@ public class PlayerMulti : MonoBehaviour
                         playerObjectMap.Remove(playerAction.user);
                         break;
                     case "Move":
-                        //playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+                        playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
                         anim.SetBool("Move", true);
                         //ローテーションの追加
                         var tes = playerObjectMap[playerAction.user].transform.rotation;
