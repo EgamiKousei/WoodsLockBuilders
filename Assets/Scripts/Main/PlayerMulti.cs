@@ -82,9 +82,7 @@ public class PlayerMulti : MonoBehaviour
                     case "Jump":
                         anim.SetBool("Jump", true);
                         rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
-                        break;
-                    case "JumpEnd":
-                        anim.SetBool("Jump", false);
+                        StartCoroutine(JumpEnd(anim));
                         break;
                     case "MoveEnd":
                         anim.SetBool("Move", false);
@@ -124,6 +122,11 @@ public class PlayerMulti : MonoBehaviour
     {
         yield return new WaitForSeconds(0.45f);
         anim.SetBool("Attack", false);
+    }
+    private IEnumerator JumpEnd(Animator anim)
+    {
+        yield return new WaitForSeconds(0.8f);
+        anim.SetBool("Jump", false);
     }
 
     // ÉvÉåÉCÉÑÅ[ÇçÏê¨

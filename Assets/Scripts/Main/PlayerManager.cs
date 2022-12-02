@@ -47,7 +47,6 @@ public class PlayerManager : MonoBehaviour
     void JumpEnd()
     {
         _animator.SetBool("Jump", false);
-        Multicast.SendPlayerAction("JumpEnd", transform.position, transform.rotation.y);
     }
 
     // Update is called once per frame
