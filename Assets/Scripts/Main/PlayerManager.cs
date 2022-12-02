@@ -34,9 +34,22 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.A))
         {
-            _animator.SetBool("Move", false);
             Multicast.SendPlayerAction("MoveEnd", transform.position, transform.rotation.y,0);
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            PlayerSpeed = SprintSpeed;
+        else
+            PlayerSpeed = NomalSpeed;
+
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
+        {
+            _animator.SetBool("Move", true);
+            Multicast.SendPlayerAction("Move", transform.position, transform.rotation.y, PlayerSpeed);
+        }
+
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A))
+         _animator.SetBool("Move", false); 
     }
     void JumpEnd()
     {
@@ -48,18 +61,6 @@ public class PlayerManager : MonoBehaviour
     void FixedUpdate()
     {
         rb.AddForce(new Vector3(0, -Gravi, 0));
-
-        if (Input.GetKey(KeyCode.LeftShift))
-            PlayerSpeed = SprintSpeed;
-        else
-            PlayerSpeed = NomalSpeed;
-
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A))
-        {
-            _animator.SetBool("Move", true);
-            Multicast.SendPlayerAction("Move", transform.position, transform.rotation.y,PlayerSpeed);
-        }
-
         if (rb.velocity.magnitude > PlayerSpeed)
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else

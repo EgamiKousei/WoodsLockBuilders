@@ -128,9 +128,11 @@ public class PlayerMulti : MonoBehaviour
 
     private void Run(CancellationToken token,float spead,Rigidbody rb)
     {
+        Debug.Log("スレッド開始");
         while (true)
         {
             rb.AddForce(transform.forward * spead, ForceMode.Force);  // 前   
+            Debug.Log("スレッド実行");
         }
     }
 
