@@ -24,6 +24,7 @@ public class MassageData
 public class LoginMulti : MonoBehaviour
 {
     public UdpClient udpClient;
+    public UdpClient client;
     public static int ClientPort = 9000;
 
     private string add;
@@ -41,6 +42,7 @@ public class LoginMulti : MonoBehaviour
             Debug.Log(add);
         }
         udpClient = new UdpClient(ClientPort);
+        client = new UdpClient();
         //メッセージを受け取る構えをする
         udpClient.BeginReceive(OnReceived, udpClient);
     }
@@ -63,7 +65,7 @@ public class LoginMulti : MonoBehaviour
                             Debug.Log(deserialized["name"].ToString() + "がログイン");
                             PlayerData.NameList.Add(deserialized["message"].ToString());
                             //var message = string.Join(",", PlayerData.MapList);
-                            SendPlayerAction("dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
+                            SendPlayerAction(udpClient,"dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
                         }
                         break;
                     case "dataSend":
@@ -97,11 +99,11 @@ public class LoginMulti : MonoBehaviour
         {
             PlayerData.PlayerName = name.text;
             //ルームデータ受け取り要請
-            SendPlayerAction("login", add, IPAddress.Parse(hostId.text), name.text);
+            SendPlayerAction(client,"login", add, IPAddress.Parse(hostId.text), name.text);
             Debug.Log("受け取り要請");
         }
     }
-    public void SendPlayerAction(string action, string ipAd, IPAddress hostId, string message) //文字列を送信用ポートから送信先ポートに送信
+    public void SendPlayerAction(UdpClient udp, string action, string ipAd, IPAddress hostId, string message) //文字列を送信用ポートから送信先ポートに送信
     {
         try
         {
@@ -112,10 +114,13 @@ public class LoginMulti : MonoBehaviour
                 message = message,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userActionData, Formatting.None));
-            udpClient.Connect(hostId, ClientPort);
-            udpClient.Send(sendBytes, 0);
+            udp.Connect(hostId, ClientPort);
+            udp.Send(sendBytes, 0);
         }
-        catch { }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
 
     private void OnApplicationQuit() //送受信用ポートを閉じつつ受信用スレッドも廃止
