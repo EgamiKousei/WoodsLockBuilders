@@ -52,7 +52,7 @@ public class LoginMulti : MonoBehaviour
 
         byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
         string json = Encoding.UTF8.GetString(getByte);
-
+        Debug.Log(json);
                 JObject deserialized = JObject.Parse(json);
                 switch (deserialized["action"].ToString())
                 {
@@ -98,6 +98,7 @@ public class LoginMulti : MonoBehaviour
             PlayerData.PlayerName = name.text;
             //ルームデータ受け取り要請
             SendPlayerAction("login", add, IPAddress.Parse(hostId.text), name.text);
+            Debug.Log("受け取り要請");
         }
     }
     public void SendPlayerAction(string action, string ipAd, IPAddress hostId, string message) //文字列を送信用ポートから送信先ポートに送信
