@@ -38,6 +38,7 @@ public class LoginMulti : MonoBehaviour
         foreach (IPAddress address in adrList)
         {
             add = address.ToString();
+            Debug.Log(add);
         }
 
         Port = 10000;
