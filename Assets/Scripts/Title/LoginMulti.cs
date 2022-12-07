@@ -23,8 +23,8 @@ public class MassageData
 
 public class LoginMulti : MonoBehaviour
 {
-    private static Socket Socket;
-    private static int Port;
+    public UdpClient udpClient;
+    public static int ClientPort = 9000;
 
     private string add;
     private Thread rcvThread; //受信用スレッド
@@ -40,38 +40,42 @@ public class LoginMulti : MonoBehaviour
             add = address.ToString();
             Debug.Log(add);
         }
-
-        Port = 10000;
-
-        startMulticast();
-
-        rcvThread = new Thread(new ThreadStart(receive));//受信スレッド生成
-        rcvThread.Start();//受信スレッド開始*
+        udpClient = new UdpClient(ClientPort);
+        //メッセージを受け取る構えをする
+        udpClient.BeginReceive(OnReceived, udpClient);
     }
 
-    private void startMulticast()
+    private void OnReceived(System.IAsyncResult result)
     {
-        try
-        {
-            Socket = new Socket(AddressFamily.InterNetwork,
-                                     SocketType.Dgram,
-                                     ProtocolType.Udp);
+        UdpClient getUdp = (UdpClient)result.AsyncState;
+        IPEndPoint ipEnd = null;
 
-            IPAddress localIPAddr = IPAddress.Parse(add);
+        byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
+        string json = Encoding.UTF8.GetString(getByte);
 
-            //IPAddress localIP = IPAddress.Any;
-            EndPoint localEP = new IPEndPoint(localIPAddr, Port);
-
-            Socket.Bind(localEP);
-        }
-
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
+                JObject deserialized = JObject.Parse(json);
+                switch (deserialized["action"].ToString())
+                {
+                    case "login":
+                        //同じ名前の人がいないか判定、ルームデータ受け渡し
+                        if (!PlayerData.NameList.Contains(deserialized["name"].ToString()))
+                        {
+                            Debug.Log(deserialized["name"].ToString() + "がログイン");
+                            PlayerData.NameList.Add(deserialized["message"].ToString());
+                            //var message = string.Join(",", PlayerData.MapList);
+                            SendPlayerAction("dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
+                        }
+                        break;
+                    case "dataSend":
+                        //ルームデータ受け取り
+                        //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
+                        GetComponent<LoginManager>().SpawnDoor();//受けとり後
+                        var message = string.Join(",", PlayerData.NameList);
+                        Debug.Log(message);
+                        break;
+                }
+            
     }
-
-
     public void Login()
     {
         if (name.text == "")
@@ -96,48 +100,7 @@ public class LoginMulti : MonoBehaviour
             SendPlayerAction("login", add, IPAddress.Parse(hostId.text), name.text);
         }
     }
-
-    public void receive() //受信スレッドで実行される関数
-    {
-        bool done = false;
-        ASCIIEncoding ASCII = new ASCIIEncoding();
-        EndPoint remote_endpoint = new IPEndPoint(IPAddress.Any, 0);
-        try
-        {
-            while (!done)
-            {
-                byte[] data = new byte[200];
-                Socket.ReceiveFrom(data, ref remote_endpoint);
-                var json = Encoding.UTF8.GetString(data);
-                JObject deserialized = JObject.Parse(json);
-                switch (deserialized["action"].ToString())
-                {
-                    case "login":
-                        //同じ名前の人がいないか判定、ルームデータ受け渡し
-                        if (!PlayerData.NameList.Contains(deserialized["name"].ToString()))
-                        {
-                            Debug.Log(deserialized["name"].ToString() + "がログイン");
-                            PlayerData.NameList.Add(deserialized["message"].ToString());
-                            //var message = string.Join(",", PlayerData.MapList);
-                            SendPlayerAction("dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
-                        }
-                        break;
-                    case "dataSend":
-                        //ルームデータ受け取り
-                        //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
-                        GetComponent<LoginManager>().SpawnDoor();//受けとり後
-                        var message = string.Join(",", PlayerData.NameList);
-                        Debug.Log(message);
-                        break;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-    }
-    public static void SendPlayerAction(string action, string ipAd, IPAddress hostId, string message) //文字列を送信用ポートから送信先ポートに送信
+    public void SendPlayerAction(string action, string ipAd, IPAddress hostId, string message) //文字列を送信用ポートから送信先ポートに送信
     {
         try
         {
@@ -148,8 +111,8 @@ public class LoginMulti : MonoBehaviour
                 message = message,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userActionData, Formatting.None));
-            IPEndPoint ClientOriginatordest = new IPEndPoint(hostId, Port);
-            Socket.SendTo(sendBytes, ClientOriginatordest);
+            udpClient.Connect(hostId, ClientPort);
+            udpClient.Send(sendBytes, 0);
         }
         catch { }
     }
@@ -158,9 +121,11 @@ public class LoginMulti : MonoBehaviour
     {
         try
         {
-            Socket.Close();
-            rcvThread.Abort();
+            udpClient.Close();
         }
-        catch { }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
 }
