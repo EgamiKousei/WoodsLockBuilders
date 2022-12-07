@@ -115,7 +115,8 @@ public class LoginMulti : MonoBehaviour
                     case "login":
                         //同じ名前の人がいないか判定、ルームデータ受け渡し
                         if (!PlayerData.NameList.Contains(deserialized["name"].ToString()))
-                        { 
+                        {
+                            Debug.Log(deserialized["name"].ToString() + "がログイン");
                             PlayerData.NameList.Add(deserialized["message"].ToString());
                             //var message = string.Join(",", PlayerData.MapList);
                             SendPlayerAction("dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
@@ -124,7 +125,7 @@ public class LoginMulti : MonoBehaviour
                     case "dataSend":
                         //ルームデータ受け取り
                         //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
-                        GetComponent<LoginManager>().SpawnDoor();//受けとって判定後
+                        GetComponent<LoginManager>().SpawnDoor();//受けとり後
                         var message = string.Join(",", PlayerData.NameList);
                         Debug.Log(message);
                         break;
