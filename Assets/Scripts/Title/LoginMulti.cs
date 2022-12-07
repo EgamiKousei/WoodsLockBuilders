@@ -128,6 +128,7 @@ public class LoginMulti : MonoBehaviour
         try
         {
             udpClient.Close();
+            client.Close();
         }
         catch (Exception e)
         {
