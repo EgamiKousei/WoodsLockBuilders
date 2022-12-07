@@ -38,7 +38,6 @@ public class LoginMulti : MonoBehaviour
         foreach (IPAddress address in adrList)
         {
             add = address.ToString();
-            Debug.Log(add);
         }
 
         Port = 10000;
@@ -80,6 +79,7 @@ public class LoginMulti : MonoBehaviour
         {
             PlayerData.PlayerName = name.text;
             GetComponent<LoginManager>().SpawnDoor();
+            PlayerData.NameList.Add(name.text);
         }
     }
     public void SendLogin()
@@ -91,8 +91,8 @@ public class LoginMulti : MonoBehaviour
         else
         {
             PlayerData.PlayerName = name.text;
-            //ルームデータ受け取り要請　SendPlayerAction
-            GetComponent<LoginManager>().SpawnDoor();//受けとって判定後
+            //ルームデータ受け取り要請
+            SendPlayerAction("login", add, IPAddress.Parse(hostId.text), name.text);
         }
     }
 
@@ -112,10 +112,20 @@ public class LoginMulti : MonoBehaviour
                 switch (deserialized["action"].ToString())
                 {
                     case "login":
-                        //ルームデータ、名前リスト受け渡し
+                        //同じ名前の人がいないか判定、ルームデータ受け渡し
+                        if (!PlayerData.NameList.Contains(deserialized["name"].ToString()))
+                        { 
+                            PlayerData.NameList.Add(deserialized["message"].ToString());
+                            //var message = string.Join(",", PlayerData.MapList);
+                            SendPlayerAction("dataSend", deserialized["ipAd"].ToString(), IPAddress.Parse(add), "message");
+                        }
                         break;
                     case "dataSend":
-                        //ルームデータ、名前リスト受け取り。同じ名前の人がいないか判定
+                        //ルームデータ受け取り
+                        //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
+                        GetComponent<LoginManager>().SpawnDoor();//受けとって判定後
+                        var message = string.Join(",", PlayerData.NameList);
+                        Debug.Log(message);
                         break;
                 }
             }

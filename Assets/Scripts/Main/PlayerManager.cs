@@ -16,6 +16,10 @@ public class PlayerManager : MonoBehaviour
 
     private Animator _animator;
 
+    private Vector3 latestPos;
+    float inputHorizontal;
+    float inputVertical;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,6 +47,8 @@ public class PlayerManager : MonoBehaviour
             _animator.SetBool("Move", false);
             Multicast.SendPlayerAction("MoveEnd", transform.position, transform.rotation.y);
         }
+        inputHorizontal = Input.GetAxisRaw("Horizontal");
+        inputVertical = Input.GetAxisRaw("Vertical");
     }
     void JumpEnd()
     {
@@ -62,14 +68,21 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
         else
         {
-            if (Input.GetKey(KeyCode.W)) 
-                rb.AddForce(transform.forward* PlayerSpeed, ForceMode.Force);  // 前   
-            if (Input.GetKey(KeyCode.D))
-                rb.AddForce(transform.right * PlayerSpeed, ForceMode.Force);  // 右
-            if (Input.GetKey(KeyCode.S))
-                rb.AddForce(-transform.forward * PlayerSpeed, ForceMode.Force);  // 後
-            if (Input.GetKey(KeyCode.A))
-                rb.AddForce(-transform.right * PlayerSpeed, ForceMode.Force);  // 左
+            // カメラの方向から、X-Z平面の単位ベクトルを取得
+            Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            // 方向キーの入力値とカメラの向きから、移動方向を決定
+            Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
+
+            rb.AddForce(moveForward * PlayerSpeed, ForceMode.Force);
+
+            Vector3 differenceDis = new Vector3(transform.position.x, 0, transform.position.z) - new Vector3(latestPos.x, 0, latestPos.z);
+            latestPos = transform.position;
+            if (Mathf.Abs(differenceDis.x) > 0.001f || Mathf.Abs(differenceDis.z) > 0.001f)
+            {
+                Quaternion rot = Quaternion.LookRotation(differenceDis);
+                rot = Quaternion.Slerp(rb.transform.rotation, rot, 0.1f);
+                transform.rotation = rot;
+            }
         }
     }
 }

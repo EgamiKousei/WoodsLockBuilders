@@ -26,6 +26,7 @@ public class MainManager : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        transform.position = new Vector3(0, 0, -15);
     }
 
     // Update is called once per frame

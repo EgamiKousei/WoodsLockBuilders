@@ -81,6 +81,7 @@ public class PlayerMulti : MonoBehaviour
                 {
                     case "Jump":
                         anim.SetBool("Jump", true);
+                        anim.SetBool("Attack", false);
                         rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
                         StartCoroutine(JumpEnd(anim));
                         break;
@@ -100,7 +101,6 @@ public class PlayerMulti : MonoBehaviour
                         anim.SetBool("Move", true);
                         break;
                     case "Attack":
-                        Debug.Log("ŠJŽn");
                         anim.SetBool("Attack", true);
                         StartCoroutine(AttackEnd(anim));
                         break;

@@ -33,14 +33,17 @@ public class PlayerData : MonoBehaviour
     private string SavePash;
 
     //名前
-    public static string PlayerName = "test2";
+    public static string PlayerName = "test";
+
+    //名前リスト
+    public static List<string> NameList = new List<string>();
 
     //プレイ部屋データ
     //時間帯データ（ルームマスター中機能）
 
     //個人部屋データ　マップ配置リスト
 
-    //プレイヤーデータ　HP/服/髪/色
+    //プレイヤーデータ　HP/色
     public static Dictionary<string, string> SaveData = new Dictionary<string, string>();
 
     //アイテムデータ　アイテム名:アイテム名/種類/所有数(インベントリ)/配置場所/所有数(バッグ)
