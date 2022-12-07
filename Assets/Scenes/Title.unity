@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 14864956}
   - component: {fileID: 14864957}
+  - component: {fileID: 14864959}
   - component: {fileID: 14864958}
   m_Layer: 0
   m_Name: LoginManager
@@ -185,11 +186,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 14864954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d599eb6c08443ed4c99c57b506fbeb58, type: 3}
+  m_Script: {fileID: 11500000, guid: 80edfbb439921ed4db1e382841b5fe51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hostId: {fileID: 193985771}
-  name: {fileID: 1554820273}
+  PlayerName: {fileID: 1554820273}
+--- !u!114 &14864959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14864954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48cbbdb12747d8e4483f4e6b5635a896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &83085200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -837,7 +850,7 @@ GameObject:
   - component: {fileID: 406147771}
   - component: {fileID: 406147770}
   m_Layer: 5
-  m_Name: RoginOther
+  m_Name: LoginOther
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -909,7 +922,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 14864958}
-        m_TargetAssemblyTypeName: LoginMulti, Assembly-CSharp
+        m_TargetAssemblyTypeName: LoginServer, Assembly-CSharp
         m_MethodName: SendLogin
         m_Mode: 1
         m_Arguments:
@@ -1199,7 +1212,7 @@ GameObject:
   - component: {fileID: 751133307}
   - component: {fileID: 751133306}
   m_Layer: 5
-  m_Name: Rogin
+  m_Name: Login
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1271,7 +1284,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 14864958}
-        m_TargetAssemblyTypeName: LoginMulti, Assembly-CSharp
+        m_TargetAssemblyTypeName: LoginServer, Assembly-CSharp
         m_MethodName: Login
         m_Mode: 1
         m_Arguments:

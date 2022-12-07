@@ -9,18 +9,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MassageData
-{
-    [JsonProperty("ipAd")]
-    public string ipAd;
-
-    [JsonProperty("action")]
-    public string action;
-
-    [JsonProperty("message")]
-    public string message;
-}
-
 public class LoginMulti : MonoBehaviour
 {
     public UdpClient udpClient;
@@ -30,22 +18,7 @@ public class LoginMulti : MonoBehaviour
     private string add;
     private Thread rcvThread; //受信用スレッド
 
-    public Text hostId,name;
-
-    void Awake()
-    {
-        // ホスト名からIPアドレスを取得する
-        IPAddress[] adrList = Dns.GetHostAddresses(Dns.GetHostName());
-        foreach (IPAddress address in adrList)
-        {
-            add = address.ToString();
-            Debug.Log(add);
-        }
-        udpClient = new UdpClient(ClientPort);
-        client = new UdpClient();
-        //メッセージを受け取る構えをする
-        udpClient.BeginReceive(OnReceived, udpClient);
-    }
+    public Text hostId,nameT;
 
     private void OnReceived(System.IAsyncResult result)
     {
@@ -55,8 +28,8 @@ public class LoginMulti : MonoBehaviour
         byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
         string json = Encoding.UTF8.GetString(getByte);
         Debug.Log(json);
-                JObject deserialized = JObject.Parse(json);
-                switch (deserialized["action"].ToString())
+        JObject deserialized = JObject.Parse(json);
+        switch (deserialized["action"].ToString())
                 {
                     case "login":
                         //同じ名前の人がいないか判定、ルームデータ受け渡し
@@ -80,26 +53,26 @@ public class LoginMulti : MonoBehaviour
     }
     public void Login()
     {
-        if (name.text == "")
+        if (nameT.text == "")
             Debug.Log("名前が未入力");
         else
         {
-            PlayerData.PlayerName = name.text;
+            PlayerData.PlayerName = nameT.text;
             GetComponent<LoginManager>().SpawnDoor();
-            PlayerData.NameList.Add(name.text);
+            PlayerData.NameList.Add(nameT.text);
         }
     }
     public void SendLogin()
     {
-        if (name.text == "")
+        if (nameT.text == "")
             Debug.Log("名前が未入力");
         else if (hostId.text == "")
             Debug.Log("ルームIDが未入力");
         else
         {
-            PlayerData.PlayerName = name.text;
+            PlayerData.PlayerName = nameT.text;
             //ルームデータ受け取り要請
-            SendPlayerAction(client,"login", add, IPAddress.Parse(hostId.text), name.text);
+            SendPlayerAction(client,"login", add, IPAddress.Parse(hostId.text), nameT.text);
             Debug.Log("受け取り要請");
         }
     }
@@ -107,7 +80,7 @@ public class LoginMulti : MonoBehaviour
     {
         try
         {
-            var userActionData = new MassageData
+            /*var userActionData = new MassageData
             {
                 ipAd = ipAd,
                 action = action,
@@ -115,7 +88,7 @@ public class LoginMulti : MonoBehaviour
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userActionData, Formatting.None));
             udp.Connect(hostId, ClientPort);
-            udp.Send(sendBytes, 0);
+            udp.Send(sendBytes, 0);*/
         }
         catch (Exception e)
         {
