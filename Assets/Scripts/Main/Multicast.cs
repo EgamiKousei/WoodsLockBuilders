@@ -65,7 +65,7 @@ public class Multicast : MonoBehaviour
 
     private void Start()
     {
-        Multicast.SendPlayerAction("login", Vector3.zero, 0.0f);
+        SendPlayerAction(PlayerData.SaveData["color"], Vector3.zero, 0.0f);
     }
 
     private void MulticastOptionProperties()

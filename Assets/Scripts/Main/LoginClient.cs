@@ -2,12 +2,21 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using Newtonsoft.Json.Linq;
 
 public class LoginClient : MonoBehaviour
 {
     public UdpClient udpClient;
     public static int ClientPort = 9000;
+
+    bool LoginDoor=false;
+
+    public void Update()
+    {
+        if (LoginDoor == true) {
+            GetComponent<LoginManager>().SpawnDoor();//受けとり後
+            LoginDoor = false;                                             
+        }
+    }
 
     void Start()
     {
@@ -23,7 +32,6 @@ public class LoginClient : MonoBehaviour
 
         byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
         string message = Encoding.UTF8.GetString(getByte);
-        Debug.Log(message);
         if (message.IndexOf(",") < 1)
         {
             if (!PlayerData.NameList.Contains(message))
@@ -32,16 +40,18 @@ public class LoginClient : MonoBehaviour
                 PlayerData.NameList.Add(message);
                 //ルームデータ受け渡し
                 //var message = string.Join(",", PlayerData.MapList);
+                var messageData = Encoding.UTF8.GetBytes("mes,sage");
                 udpClient.Connect(ipEnd.Address.ToString(), ClientPort);
-                udpClient.Send(Encoding.UTF8.GetBytes("mes,sage"), 0);
+                udpClient.Send(messageData, messageData.Length);
+                Debug.Log("ルーム情報受け渡し");
             }
         }
         else
-        {   
+        {
+            Debug.Log("ルーム情報受け取り");
             //ルームデータ受け取り
             //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
-            GetComponent<LoginManager>().SpawnDoor();//受けとり後
-            Debug.Log("ルーム情報受け取り");
+            LoginDoor = true;
         }
         getUdp.BeginReceive(OnReceived, getUdp);
     }

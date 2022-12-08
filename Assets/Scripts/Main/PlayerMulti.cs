@@ -89,8 +89,10 @@ public class PlayerMulti : MonoBehaviour
                         anim.SetBool("Move", false);
                         break;
                     case "logout":
+                        Destroy(playerObjectMap[playerAction.user].GetComponent<MeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
+                        PlayerData.NameList.Remove(playerAction.user);
                         break;
                     case "Move":
                         //ローテーションの追加
@@ -111,10 +113,11 @@ public class PlayerMulti : MonoBehaviour
             else
             {
                 // 他プレイヤーの作成
-                var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user);
+                var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user, playerAction.action);
 
                 // 他プレイヤーリストへの追加
                 playerObjectMap.Add(playerAction.user, player);
+                PlayerData.NameList.Add(playerAction.user);
             }
         }
     }
@@ -130,7 +133,7 @@ public class PlayerMulti : MonoBehaviour
     }
 
     // プレイヤーを作成
-    private GameObject MakePlayer(Vector3 pos, string name)
+    private GameObject MakePlayer(Vector3 pos, string name,string color)
     {
         // プレイヤーのリソース(プレハブ)を取得 ※初回のみ
         playerPrefab = playerPrefab ?? (GameObject)Resources.Load("OtherPlayer");
@@ -141,11 +144,28 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
+
+        //プレイヤーの色の設定
+        var otherColor = player.transform.Find("Head_08b").gameObject;
+        Shader sh = otherColor.GetComponent<MeshRenderer>().materials[1].shader;
+        Material mat = new Material(sh);
+
+        float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
+        float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
+        float b = Convert.ToInt32(color, 16) & 0xff;
+        mat.color =
+           new Color(r / 255, g / 255, b / 255);
+        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
+        otherColor = player.transform.Find("Body_08b").gameObject;
+        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
+        otherColor = player.transform.Find("shield_12").gameObject;
+        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         return player;
     }
 
     private void OnApplicationQuit()
     {
+        Multicast.SendPlayerAction("logout", Vector3.zero, 0.0f);
         Debug.Log("OnApplicationQuit");
     }
 }

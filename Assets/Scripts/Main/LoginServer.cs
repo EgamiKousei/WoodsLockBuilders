@@ -26,12 +26,9 @@ public class LoginServer : MonoBehaviour
 
     public Text hostId, PlayerName;
 
-    //ユーザーリスト
-    public static List<string> UserList = new List<string>();
-
     private void Start()
     {
-        UserList.Clear();
+        PlayerData.NameList.Clear();
 
         // ホスト名からIPアドレスを取得する
         IPAddress[] adrList = Dns.GetHostAddresses(Dns.GetHostName());
@@ -69,7 +66,7 @@ public class LoginServer : MonoBehaviour
             //ルームデータ受け取り要請
             client.Connect(hostId.text, LoginClient.ClientPort);
             var message = Encoding.UTF8.GetBytes(PlayerName.text);
-            client.Send(message, 0);
+            client.Send(message, message.Length);
             Debug.Log("受け取り要請");
         }
     }
