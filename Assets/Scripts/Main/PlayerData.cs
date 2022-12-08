@@ -33,7 +33,7 @@ public class PlayerData : MonoBehaviour
     private string SavePash;
 
     //名前
-    public static string PlayerName = "test2";
+    public static string PlayerName = "test";
 
     //名前リスト
     public static List<string> NameList = new List<string>();

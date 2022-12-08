@@ -89,7 +89,8 @@ public class PlayerMulti : MonoBehaviour
                         anim.SetBool("Move", false);
                         break;
                     case "logout":
-                        Destroy(playerObjectMap[playerAction.user].GetComponent<MeshRenderer>().materials[1].shader);
+                        var otherColor = playerObjectMap[playerAction.user].transform.Find("Body_08b").gameObject;
+                        Destroy(otherColor.GetComponent<MeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
                         PlayerData.NameList.Remove(playerAction.user);
@@ -144,19 +145,22 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
-        
-        //プレイヤーの色の設定
-        var otherColor = player.transform.Find("Head_08b").gameObject;
-        Shader sh = otherColor.GetComponent<MeshRenderer>().materials[1].shader;
-        Material mat = new Material(sh);
 
-        float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
+        //プレイヤーの色の設定
+
+        //var otherColor = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
+        var otherColor = player.transform.Find("Body_08b").gameObject;
+        var sh = otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader;
+        Material mat = new Material(sh);
+        Debug.Log("create");
+        
+        /*float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
         mat.color =
            new Color(r / 255, g / 255, b / 255);
         Debug.Log("create");
-        /*
+        
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
