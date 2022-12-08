@@ -144,7 +144,8 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
-
+        Debug.Log("create");
+        /*
         //プレイヤーの色の設定
         var otherColor = player.transform.Find("Head_08b").gameObject;
         Shader sh = otherColor.GetComponent<MeshRenderer>().materials[1].shader;
@@ -159,7 +160,7 @@ public class PlayerMulti : MonoBehaviour
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("shield_12").gameObject;
-        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
+        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;*/
         return player;
     }
 
