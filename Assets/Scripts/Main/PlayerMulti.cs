@@ -22,6 +22,14 @@ public class PlayerMulti : MonoBehaviour
     Animator anim;
     private CancellationTokenSource _cts;
 
+    private Thread rcvThread; //受信用スレッド
+
+    private void Awake()
+    {
+        rcvThread = new Thread(new ThreadStart(Synchronaize));//受信スレッド生成
+        rcvThread.Start();//受信スレッド開始*
+    }
+
     // 定期更新
     void Update()
     {
@@ -90,7 +98,7 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "logout":
                         var otherColor = playerObjectMap[playerAction.user].transform.Find("Body_08b").gameObject;
-                        Destroy(otherColor.GetComponent<MeshRenderer>().materials[1].shader);
+                        //Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
                         PlayerData.NameList.Remove(playerAction.user);
@@ -151,6 +159,7 @@ public class PlayerMulti : MonoBehaviour
         //var otherColor = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
         var otherColor = player.transform.Find("Body_08b").gameObject;
         var sh = otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader;
+        
         Material mat = new Material(sh);
         float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
@@ -158,18 +167,19 @@ public class PlayerMulti : MonoBehaviour
         mat.color =
            new Color(r / 255, g / 255, b / 255);
         Debug.Log("create");
-        /*
-        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
+        
+        /*otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("shield_12").gameObject;*/
-        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
+        otherColor.GetComponent<SkinnedMeshRenderer>().materials[1] = mat;
         return player;
     }
 
     private void OnApplicationQuit()
     {
         Multicast.SendPlayerAction("logout", Vector3.zero, 0.0f);
+        rcvThread.Abort();
         Debug.Log("OnApplicationQuit");
     }
 }
