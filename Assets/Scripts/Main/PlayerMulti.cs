@@ -152,20 +152,18 @@ public class PlayerMulti : MonoBehaviour
         var otherColor = player.transform.Find("Body_08b").gameObject;
         var sh = otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader;
         Material mat = new Material(sh);
-        Debug.Log("create");
-        
-        /*float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
+        float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
         mat.color =
            new Color(r / 255, g / 255, b / 255);
         Debug.Log("create");
-        
+        /*
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
-        otherColor = player.transform.Find("shield_12").gameObject;
-        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;*/
+        otherColor = player.transform.Find("shield_12").gameObject;*/
+        otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         return player;
     }
 
