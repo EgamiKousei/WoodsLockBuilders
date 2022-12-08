@@ -65,7 +65,7 @@ public class Multicast : MonoBehaviour
 
     private void Start()
     {
-        SendPlayerAction("login", Vector3.zero, 0.0f);
+        SendPlayerAction("login",new Vector3(0f,0f,-20f), 0.0f);
     }
 
     private void MulticastOptionProperties()
