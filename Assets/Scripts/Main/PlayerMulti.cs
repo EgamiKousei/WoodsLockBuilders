@@ -20,7 +20,8 @@ public class PlayerMulti : MonoBehaviour
 
     Rigidbody rb;
     Animator anim;
-    private CancellationTokenSource _cts;
+
+    public Material PlayerMate;
 
     // 定期更新
     void Update()
@@ -147,12 +148,9 @@ public class PlayerMulti : MonoBehaviour
         otherNameText.GetComponent<TextMesh>().text = name;
 
         //プレイヤーの色の設定
-        Material sh=null; 
-
         //var otherColor = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
         var otherColor = player.transform.Find("Body_08b").gameObject;
-        sh = sh ?? (Material)Resources.Load("PlayerColor");
-        Material mat = new Material(sh);
+        Material mat = new Material(PlayerMate);
         /*float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
@@ -164,7 +162,7 @@ public class PlayerMulti : MonoBehaviour
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("shield_12").gameObject;*/
-        otherColor.GetComponent<SkinnedMeshRenderer>().materials[1] = sh;
+        otherColor.GetComponent<SkinnedMeshRenderer>().materials[1] = mat;
         return player;
     }
 
