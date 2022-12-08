@@ -115,7 +115,7 @@ public class PlayerMulti : MonoBehaviour
             else
             {
                 // 他プレイヤーの作成
-                var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user, playerAction.action);
+                var player = MakePlayer(new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z), playerAction.user, playerAction.color);
 
                 // 他プレイヤーリストへの追加
                 playerObjectMap.Add(playerAction.user, player);
@@ -150,19 +150,17 @@ public class PlayerMulti : MonoBehaviour
         //プレイヤーの色の設定
         //var otherColor = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
         var otherColor = player.transform.Find("Body_08b").gameObject;
-        Material mat = new Material(PlayerMate);
-        /*float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
+        var renderer = otherColor.GetComponent<SkinnedMeshRenderer>();
+        float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
-       mat.color =
-           new Color(r / 255, g / 255, b / 255);
-        Debug.Log("create");
-        
+        renderer.materials[1].color = new Color(r / 255, g / 255, b / 255);
+        Debug.Log(color);
+        /*
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("shield_12").gameObject;*/
-        otherColor.GetComponent<SkinnedMeshRenderer>().materials[1] = mat;
         return player;
     }
 

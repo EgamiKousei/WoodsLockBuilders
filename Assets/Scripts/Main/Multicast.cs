@@ -65,7 +65,7 @@ public class Multicast : MonoBehaviour
 
     private void Start()
     {
-        SendPlayerAction(PlayerData.SaveData["color"], Vector3.zero, 0.0f);
+        SendPlayerAction("login", Vector3.zero, 0.0f);
     }
 
     private void MulticastOptionProperties()
@@ -120,6 +120,7 @@ public class Multicast : MonoBehaviour
                 pos_y = pos.y,
                 pos_z = pos.z,
                 rote_y = rote_y,
+                color = PlayerData.SaveData["color"],
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(userActionData.ToJson());
             IPEndPoint ClientOriginatordest = new IPEndPoint(mcastAddress, mcastPort);
