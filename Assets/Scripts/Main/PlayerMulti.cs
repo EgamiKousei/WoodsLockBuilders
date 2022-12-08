@@ -81,7 +81,7 @@ public class PlayerMulti : MonoBehaviour
                 {
                     case "Jump":
                         anim.SetBool("Jump", true);
-                        anim.SetBool("Attack", false);
+                        //anim.SetBool("Attack", false);
                         rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
                         StartCoroutine(JumpEnd(anim));
                         break;
@@ -144,8 +144,7 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーのネームプレートの設定
         var otherNameText = player.transform.Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
-        Debug.Log("create");
-        /*
+        
         //プレイヤーの色の設定
         var otherColor = player.transform.Find("Head_08b").gameObject;
         Shader sh = otherColor.GetComponent<MeshRenderer>().materials[1].shader;
@@ -156,6 +155,8 @@ public class PlayerMulti : MonoBehaviour
         float b = Convert.ToInt32(color, 16) & 0xff;
         mat.color =
            new Color(r / 255, g / 255, b / 255);
+        Debug.Log("create");
+        /*
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
         otherColor = player.transform.Find("Body_08b").gameObject;
         otherColor.GetComponent<MeshRenderer>().materials[1] = mat;
