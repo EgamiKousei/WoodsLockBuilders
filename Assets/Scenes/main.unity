@@ -6426,7 +6426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1164ed301b67a24f99049698397ab63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerMate: {fileID: 2100000, guid: 3f18e9d491fe919448394d557d9082e8, type: 2}
 --- !u!114 &4242371353946905441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6479,6 +6478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88319260662f3bf4b9d950d769658c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerMate: {fileID: 2100000, guid: 4f4d1df8d8dcd2844bc79df9ace81d2b, type: 2}
 --- !u!136 &4242371353947004346
 CapsuleCollider:
   m_ObjectHideFlags: 0

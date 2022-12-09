@@ -161,6 +161,7 @@ public class PlayerMulti : MonoBehaviour
     private void OnApplicationQuit()
     {
         Multicast.SendPlayerAction("logout", Vector3.zero, 0.0f);
+        Resources.UnloadUnusedAssets();
         Debug.Log("OnApplicationQuit");
     }
 }
