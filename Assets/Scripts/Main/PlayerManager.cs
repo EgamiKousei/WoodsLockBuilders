@@ -20,10 +20,18 @@ public class PlayerManager : MonoBehaviour
     float inputHorizontal;
     float inputVertical;
 
+    public Material PlayerMate;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+
+        //プレイヤーの色の設定
+        float r = (Convert.ToInt32(PlayerData.SaveData["color"], 16) >> 16) & 0xff;
+        float g = (Convert.ToInt32(PlayerData.SaveData["color"], 16) >> 8) & 0xff;
+        float b = Convert.ToInt32(PlayerData.SaveData["color"], 16) & 0xff; new Color(r / 255, g / 255, b / 255);
+        PlayerMate.color= new Color(r / 255, g / 255, b / 255);
     }
 
     private void Update()
