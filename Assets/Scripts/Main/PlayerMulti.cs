@@ -89,7 +89,7 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "logout":
                         var otherColor = playerObjectMap[playerAction.user].transform.Find("Body_08b").gameObject;
-                        //Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
+                        Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
                         PlayerData.NameList.Remove(playerAction.user);
