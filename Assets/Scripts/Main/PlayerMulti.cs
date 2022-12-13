@@ -14,6 +14,9 @@ public class PlayerMulti : MonoBehaviour
     // 全プレイヤーのオブジェクト情報
     private readonly Dictionary<string, GameObject> playerObjectMap = new Dictionary<string, GameObject>();
 
+    // 全プレイヤーの座標情報
+    private Dictionary<string, Transform> playerTransform = new Dictionary<string, Transform>();
+
     public static UnityAction<Dictionary<string, PlayerActionData>> recieveCompletedHandler;
 
     Rigidbody rb;
@@ -78,7 +81,6 @@ public class PlayerMulti : MonoBehaviour
                 {
                     case "Jump":
                         anim.SetBool("Jump", true);
-                        //anim.SetBool("Attack", false);
                         rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
                         StartCoroutine(JumpEnd(anim));
                         break;
@@ -91,6 +93,7 @@ public class PlayerMulti : MonoBehaviour
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
                         PlayerData.NameList.Remove(playerAction.user);
+                        playerTransform.Remove(playerAction.user);
                         break;
                     case "Move":
                         //ローテーションの追加
@@ -139,14 +142,16 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーを生成
         var player = Instantiate(playerPrefab, pos, Quaternion.identity);
 
+        playerTransform.Add(name, player.transform);
+
         // プレイヤーのネームプレートの設定
-        var otherNameText = player.transform.Find("TxtUserName").gameObject;
+        var otherNameText = playerTransform[name].Find("TxtUserName").gameObject;
         otherNameText.GetComponent<TextMesh>().text = name;
 
         //プレイヤーの色の設定
-        var otherColor1 = player.transform.Find("Body_08b").gameObject;
-        var otherColor2 = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
-        var otherColor3 = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand/L_shield_container/shield_12").gameObject;
+        var otherColor1 = playerTransform[name].Find("Body_08b").gameObject;
+        var otherColor2 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
+        var otherColor3 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand/L_shield_container/shield_12").gameObject;
         float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
@@ -160,6 +165,5 @@ public class PlayerMulti : MonoBehaviour
     {
         Multicast.SendPlayerAction("logout", Vector3.zero, 0.0f);
         Resources.UnloadUnusedAssets();
-        Debug.Log("OnApplicationQuit");
     }
 }

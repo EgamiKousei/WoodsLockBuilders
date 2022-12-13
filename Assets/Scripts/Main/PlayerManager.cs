@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    Transform _Transform;
+
     //ˆÚ“®‘¬“x‚Ì’è‹`
-     float NomalSpeed = 300f;
+    float NomalSpeed = 300f;
      float SprintSpeed = 400f;
     float PlayerSpeed;
     public static float Gravi=100f;
@@ -30,6 +32,8 @@ public class PlayerManager : MonoBehaviour
         float g = (Convert.ToInt32(PlayerData.SaveData["color"], 16) >> 8) & 0xff;
         float b = Convert.ToInt32(PlayerData.SaveData["color"], 16) & 0xff; new Color(r / 255, g / 255, b / 255);
         PlayerMate.color= new Color(r / 255, g / 255, b / 255);
+
+        _Transform = transform;
     }
 
     private void Update()
@@ -37,21 +41,21 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)&& _animator.GetBool("Jump")==false)
         {
             _animator.SetBool("Jump", true);
-            rb.AddForce(transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("Jump", transform.position, transform.rotation.y);
+            rb.AddForce(_Transform.up * JumpGravi, ForceMode.Impulse);
+            Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.rotation.y);
             Invoke("JumpEnd", 0.8f);
         }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
         {
             _animator.SetBool("Move", true);
-            Multicast.SendPlayerAction("Move", transform.position, transform.rotation.y);
+            Multicast.SendPlayerAction("Move", _Transform.position, _Transform.rotation.y);
         }
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A))
         {
             _animator.SetBool("Move", false);
-            Multicast.SendPlayerAction("MoveEnd", transform.position, transform.rotation.y);
+            Multicast.SendPlayerAction("MoveEnd", _Transform.position, _Transform.rotation.y);
         }
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
@@ -81,13 +85,13 @@ public class PlayerManager : MonoBehaviour
 
             rb.AddForce(moveForward * PlayerSpeed, ForceMode.Force);
 
-            Vector3 differenceDis = new Vector3(transform.position.x, 0, transform.position.z) - new Vector3(latestPos.x, 0, latestPos.z);
-            latestPos = transform.position;
+            Vector3 differenceDis = new Vector3(_Transform.position.x, 0, _Transform.position.z) - new Vector3(latestPos.x, 0, latestPos.z);
+            latestPos = _Transform.position;
             if (Mathf.Abs(differenceDis.x) > 0.001f || Mathf.Abs(differenceDis.z) > 0.001f)
             {
                 Quaternion rot = Quaternion.LookRotation(differenceDis);
-                rot = Quaternion.Slerp(rb.transform.rotation, rot, 0.1f);
-                transform.rotation = rot;
+                rot = Quaternion.Slerp(_Transform.rotation, rot, 0.1f);
+                _Transform.rotation = rot;
             }
         }
     }
