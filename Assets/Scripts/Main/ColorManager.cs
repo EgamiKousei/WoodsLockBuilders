@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +8,7 @@ public class ColorManager : MonoBehaviour
     public Slider H, S, V;
     public Image Simage;
     private float H_flort, S_flort, V_flort;
-    // Update is called once per frame
+    //–{—ˆ‚ÌƒJƒ‰[‚Í3059AE
 
     private void Awake()
     {

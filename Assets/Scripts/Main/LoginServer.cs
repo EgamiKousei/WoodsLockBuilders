@@ -3,9 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using System;
-using Newtonsoft.Json;
 
 /*public class MassageData
 {

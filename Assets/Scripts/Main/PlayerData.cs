@@ -1,6 +1,4 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -33,7 +31,7 @@ public class PlayerData : MonoBehaviour
     private string SavePash;
 
     //名前
-    public static string PlayerName = "test";
+    public static string PlayerName = "test2";
 
     //名前リスト
     public static List<string> NameList = new List<string>();
@@ -67,7 +65,7 @@ public class PlayerData : MonoBehaviour
 
     public ItemData LoadFile(string dataPath)
     {
-        StreamReader reader = new StreamReader(dataPath, System.Text.Encoding.UTF8);
+        StreamReader reader = new StreamReader(dataPath);
         string datastr = reader.ReadToEnd();
         reader.Close();
         return JsonUtility.FromJson<ItemData>(datastr);
@@ -79,5 +77,38 @@ public class PlayerData : MonoBehaviour
         string datastr = reader.ReadToEnd();
         reader.Close();
         return JsonUtility.FromJson<SaveData>(datastr);
+    }
+
+    private void OnApplicationQuit()
+    {
+        StreamWriter wreiter = new StreamWriter(SavePash, false);
+        var data = new SaveData
+        {
+            hp = int.Parse(SaveData["hp"]),
+            color = SaveData["color"],
+        };
+
+        var jsonstr = JsonUtility.ToJson(data);
+        wreiter.WriteLine(jsonstr);
+        wreiter.Flush();
+        wreiter.Close();
+
+        wreiter = new StreamWriter(ItemDataPash, false);
+
+        itemData[] Idata=new itemData[9];
+        int n = 0;
+        foreach (var i in ItemBox.Values)
+        {
+            Idata[n]= i;
+            n++;
+        }
+        var data2 = new ItemData
+        {
+            data= Idata
+        };
+        jsonstr = JsonUtility.ToJson(data2);
+            wreiter.WriteLine(jsonstr);
+            wreiter.Flush();
+            wreiter.Close();
     }
 }
