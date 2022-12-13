@@ -88,7 +88,7 @@ public class PlayerMulti : MonoBehaviour
                         anim.SetBool("Move", false);
                         break;
                     case "logout":
-                        var otherColor = playerObjectMap[playerAction.user].transform.Find("Body_08b").gameObject;
+                        var otherColor = playerTransform[name].Find("Body_08b").gameObject;
                         Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
@@ -97,10 +97,10 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "Move":
                         //ローテーションの追加
-                        var tes = playerObjectMap[playerAction.user].transform.rotation;
+                        var tes = playerTransform[name].rotation;
                         tes.y = playerAction.rote_y;
-                        playerObjectMap[playerAction.user].transform.rotation = tes;
-                        playerObjectMap[playerAction.user].transform.position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+                        playerTransform[name].rotation = tes;
+                        playerTransform[name].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
                         anim.SetBool("Move", true);
                         break;
                     case "Attack":
