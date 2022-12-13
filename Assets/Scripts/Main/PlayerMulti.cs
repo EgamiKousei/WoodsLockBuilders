@@ -81,14 +81,14 @@ public class PlayerMulti : MonoBehaviour
                 {
                     case "Jump":
                         anim.SetBool("Jump", true);
-                        rb.AddForce(transform.up * PlayerManager.JumpGravi, ForceMode.Impulse);
+                        rb.AddForce(playerTransform[playerAction.user].up * PlayerManager.JumpGravi, ForceMode.Impulse);
                         StartCoroutine(JumpEnd(anim));
                         break;
                     case "MoveEnd":
                         anim.SetBool("Move", false);
                         break;
                     case "logout":
-                        var otherColor = playerTransform[name].Find("Body_08b").gameObject;
+                        var otherColor = playerTransform[playerAction.user].Find("Body_08b").gameObject;
                         Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         playerObjectMap.Remove(playerAction.user);
@@ -97,10 +97,10 @@ public class PlayerMulti : MonoBehaviour
                         break;
                     case "Move":
                         //ローテーションの追加
-                        var tes = playerTransform[name].rotation;
+                        var tes = playerTransform[playerAction.user].rotation;
                         tes.y = playerAction.rote_y;
-                        playerTransform[name].rotation = tes;
-                        playerTransform[name].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+                        playerTransform[playerAction.user].rotation = tes;
+                        playerTransform[playerAction.user].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
                         anim.SetBool("Move", true);
                         break;
                     case "Attack":
