@@ -76,6 +76,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
         {
             _animator.SetBool(moveParamHash, true);
+            if(_animator.GetBool("Jump") == false)
             Multicast.SendPlayerAction("Move", _Transform.position, _Transform.rotation.y);
         }
         else { 
