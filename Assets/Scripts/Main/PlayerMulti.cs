@@ -89,7 +89,7 @@ public class PlayerMulti : MonoBehaviour
                         playerAnim.Remove(playerAction.user);
                         break;
                     case "Move":
-                        playerTransform[playerAction.user].localRotation = 
+                        playerTransform[playerAction.user].rotation = 
                             Quaternion.Euler(playerTransform[playerAction.user].rotation.x
                             , playerAction.rote_y, playerTransform[playerAction.user].rotation.z);
                         playerTransform[playerAction.user].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
