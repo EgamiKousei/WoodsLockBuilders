@@ -5,6 +5,7 @@ public class ActionManager : MonoBehaviour
 {
     int ItemNum=1;
     private Animator _animator;
+    public static int attackParamHash;
 
     enum Player
     {
@@ -25,6 +26,7 @@ public class ActionManager : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         transform.position = new Vector3(0, 0, -15);
+        attackParamHash = Animator.StringToHash("Attack");
     }
 
     // Update is called once per frame
@@ -65,7 +67,7 @@ public class ActionManager : MonoBehaviour
                 case "åï":
                     if (Input.GetMouseButtonDown(0))
                     {
-                        _animator.SetBool("Attack", true);
+                        _animator.SetBool(attackParamHash, true);
                         Multicast.SendPlayerAction("Attack", transform.position, transform.rotation.y);
                         Invoke("AttackEnd", 0.45f);
                     }
@@ -83,7 +85,7 @@ public class ActionManager : MonoBehaviour
                     // î≠éÀ
                     else if (Input.GetMouseButtonUp(0))
                     {
-                        _animator.SetBool("Attack", true);
+                        _animator.SetBool(attackParamHash, true);
                         Invoke("AttackEnd", 1f);
                         Debug.Log("âìäuçUåÇ");
                         mainCamera.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -124,6 +126,6 @@ public class ActionManager : MonoBehaviour
 
     private void AttackEnd()
     {
-        _animator.SetBool("Attack", false);
+        _animator.SetBool(attackParamHash, false);
     }
 }

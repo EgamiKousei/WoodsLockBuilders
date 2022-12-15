@@ -17,10 +17,12 @@ public class PlayerMulti : MonoBehaviour
     // 全プレイヤーの座標情報
     private Dictionary<string, Transform> playerTransform = new Dictionary<string, Transform>();
 
+    // 全プレイヤーのアニメーター情報
+    private Dictionary<string, Animator> playerAnim = new Dictionary<string, Animator>();
+
     public static UnityAction<Dictionary<string, PlayerActionData>> recieveCompletedHandler;
 
     Rigidbody rb;
-    Animator anim;
 
     // 定期更新
     void Update()
@@ -54,17 +56,6 @@ public class PlayerMulti : MonoBehaviour
 
     private void Synchronaize()
     {
-        // 退出した他プレイヤーの検索
-        /*List<string> otherPlayerNameList = new List<string>(playerObjectMap.Keys);
-        foreach (var otherPlayerName in otherPlayerNameList)
-        {
-            // 退出したプレイヤーの削除
-            if (!PlayerActionMap.ContainsKey(otherPlayerName))
-            {
-                Destroy(playerObjectMap[otherPlayerName]);
-                playerObjectMap.Remove(otherPlayerName);
-            }
-        }*/
         // プレイヤーの位置を更新
         foreach (var playerAction in PlayerActionMap.Values)
         {            // 自分は移動済みなのでスルー
@@ -75,37 +66,38 @@ public class PlayerMulti : MonoBehaviour
             // 入室中の他プレイヤーの移動
             if (playerObjectMap.ContainsKey(playerAction.user))
             {
-                anim = playerObjectMap[playerAction.user].GetComponent<Animator>();
-                rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
                 switch (playerAction.action)
                 {
                     case "Jump":
-                        anim.SetBool("Jump", true);
+                        rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
+                        playerAnim[playerAction.user].SetBool(PlayerManager.jumpParamHash, true);
                         rb.AddForce(playerTransform[playerAction.user].up * PlayerManager.JumpGravi, ForceMode.Impulse);
-                        StartCoroutine(JumpEnd(anim));
+                        StartCoroutine(JumpEnd(playerAnim[playerAction.user]));
                         break;
                     case "MoveEnd":
-                        anim.SetBool("Move", false);
+                        playerAnim[playerAction.user].SetBool(PlayerManager.moveParamHash, false);
                         break;
                     case "logout":
                         var otherColor = playerTransform[playerAction.user].Find("Body_08b").gameObject;
                         Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
+                        //オブジェクトリストとオブジェクトリスト
                         playerObjectMap.Remove(playerAction.user);
                         PlayerData.NameList.Remove(playerAction.user);
+                        //座標リストとアニメーションリスト
                         playerTransform.Remove(playerAction.user);
+                        playerAnim.Remove(playerAction.user);
                         break;
                     case "Move":
-                        //ローテーションの追加
-                        var tes = playerTransform[playerAction.user].rotation;
-                        tes.y = playerAction.rote_y;
-                        playerTransform[playerAction.user].rotation = tes;
+                        playerTransform[playerAction.user].localRotation = 
+                            Quaternion.Euler(playerTransform[playerAction.user].rotation.x
+                            , playerAction.rote_y, playerTransform[playerAction.user].rotation.z);
                         playerTransform[playerAction.user].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
-                        anim.SetBool("Move", true);
+                        playerAnim[playerAction.user].SetBool(PlayerManager.moveParamHash, true);
                         break;
                     case "Attack":
-                        anim.SetBool("Attack", true);
-                        StartCoroutine(AttackEnd(anim));
+                        playerAnim[playerAction.user].SetBool(ActionManager.attackParamHash, true);
+                        StartCoroutine(AttackEnd(playerAnim[playerAction.user]));
                         break;
                 }
 
@@ -125,12 +117,12 @@ public class PlayerMulti : MonoBehaviour
     private IEnumerator AttackEnd(Animator anim)
     {
         yield return new WaitForSeconds(0.45f);
-        anim.SetBool("Attack", false);
+        anim.SetBool(ActionManager.attackParamHash, false);
     }
     private IEnumerator JumpEnd(Animator anim)
     {
-        yield return new WaitForSeconds(0.8f);
-        anim.SetBool("Jump", false);
+        yield return new WaitForSeconds(0.7f);
+        anim.SetBool(PlayerManager.jumpParamHash, false);
     }
 
     // プレイヤーを作成
@@ -142,7 +134,9 @@ public class PlayerMulti : MonoBehaviour
         // プレイヤーを生成
         var player = Instantiate(playerPrefab, pos, Quaternion.identity);
 
+        //座標リストとアニメーションリスト
         playerTransform.Add(name, player.transform);
+        playerAnim.Add(name, player.GetComponent<Animator>());
 
         // プレイヤーのネームプレートの設定
         var otherNameText = playerTransform[name].Find("TxtUserName").gameObject;

@@ -8,6 +8,7 @@ public class CameraManager : MonoBehaviour
     private float minYAngle = 0;
 
     public GameObject player;
+    Transform _Transform, _PlayerTransform;
 
     //ƒJƒƒ‰‚Ì‘€ìó‘Ô
     public enum Camera
@@ -20,12 +21,14 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         CameraFlag = Camera.nomal;
+        _Transform = transform;
+        _PlayerTransform = player.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.transform.localPosition.x,0, player.transform.localPosition.z);
+        _Transform.position = new Vector3(_PlayerTransform.localPosition.x,0, _PlayerTransform.localPosition.z);
 
         if (Input.GetMouseButton(1))
         {
@@ -50,17 +53,17 @@ public class CameraManager : MonoBehaviour
                 float Y_Rotation = Input.GetAxis("Mouse Y");
 
                 // ‰ñ“]‚³‚¹‚é
-                transform.eulerAngles += new Vector3(0, X_Rotation*3, 0);
+                _Transform.eulerAngles += new Vector3(0, X_Rotation*3, 0);
 
-                float nowAngle = transform.localEulerAngles.x;
+                float nowAngle = _Transform.localEulerAngles.x;
                 if (-Y_Rotation != 0)
                 {
                     if(maxYAngle+ Y_Rotation > nowAngle&&nowAngle- Y_Rotation > minYAngle)
-                        transform.eulerAngles += new Vector3(-Y_Rotation, 0, 0);
+                        _Transform.eulerAngles += new Vector3(-Y_Rotation, 0, 0);
                     else if (maxYAngle+ Y_Rotation<= nowAngle)
-                        transform.eulerAngles = new Vector3(maxYAngle, transform.localEulerAngles.y, 0);
+                        _Transform.eulerAngles = new Vector3(maxYAngle, _Transform.localEulerAngles.y, 0);
                     else if (minYAngle- Y_Rotation >= nowAngle)
-                        transform.eulerAngles = new Vector3(minYAngle, transform.localEulerAngles.y, 0);
+                        _Transform.eulerAngles = new Vector3(minYAngle, _Transform.localEulerAngles.y, 0);
                 }
                break;
 

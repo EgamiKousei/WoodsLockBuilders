@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     float NomalSpeed = 300f;
      float SprintSpeed = 400f;
     float PlayerSpeed;
-    public static float Gravi=100f;
+    public static float Gravi=120f;
     public static float JumpGravi = 100f;
 
     Rigidbody rb;//リギッドボディ
@@ -21,6 +22,10 @@ public class PlayerManager : MonoBehaviour
     float inputVertical;
 
     public Material PlayerMate;
+
+    Transform CameraTrans;
+
+    public static int jumpParamHash, moveParamHash;
 
     void Start()
     {
@@ -34,35 +39,29 @@ public class PlayerManager : MonoBehaviour
         PlayerMate.color= new Color(r / 255, g / 255, b / 255);
 
         _Transform = transform;
+        CameraTrans = Camera.main.transform;
+
+        jumpParamHash = Animator.StringToHash("Jump");
+        moveParamHash= Animator.StringToHash("Move");
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)&& _animator.GetBool("Jump")==false)
+        
+        if (Input.GetKeyDown(KeyCode.Space)&& _animator.GetBool("Jump") == false)
         {
-            _animator.SetBool("Jump", true);
-            rb.AddForce(_Transform.up * JumpGravi, ForceMode.Impulse);
-            Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.rotation.y);
-            Invoke("JumpEnd", 0.8f);
-        }
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
-        {
-            _animator.SetBool("Move", true);
-            Multicast.SendPlayerAction("Move", _Transform.position, _Transform.rotation.y);
-        }
-
-        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A))
-        {
-            _animator.SetBool("Move", false);
-            Multicast.SendPlayerAction("MoveEnd", _Transform.position, _Transform.rotation.y);
+                _animator.SetBool(jumpParamHash, true);
+                rb.AddForce(_Transform.up * JumpGravi, ForceMode.Impulse);
+                //Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.localRotation.y);
+                StartCoroutine(JumpEnd());
         }
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
     }
-    void JumpEnd()
+    private IEnumerator JumpEnd()
     {
-        _animator.SetBool("Jump", false);
+        yield return new WaitForSeconds(0.7f);
+        _animator.SetBool(jumpParamHash, false);
     }
 
     // Update is called once per frame
@@ -74,14 +73,23 @@ public class PlayerManager : MonoBehaviour
         else
             PlayerSpeed = NomalSpeed;
 
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
+        {
+            _animator.SetBool(moveParamHash, true);
+            Multicast.SendPlayerAction("Move", _Transform.position, _Transform.localRotation.y);
+        }
+        else { 
+            _animator.SetBool(moveParamHash, false);
+            Multicast.SendPlayerAction("MoveEnd", _Transform.position, _Transform.localRotation.y);
+        }
+
         if (rb.velocity.magnitude > PlayerSpeed)
             rb.velocity = new Vector3(rb.velocity.x / 1.1f, rb.velocity.y, rb.velocity.z / 1.1f);
-        else
-        {
+        else {
             // カメラの方向から、X-Z平面の単位ベクトルを取得
-            Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            Vector3 cameraForward = Vector3.Scale(CameraTrans.forward, new Vector3(1, 0, 1)).normalized;
             // 方向キーの入力値とカメラの向きから、移動方向を決定
-            Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
+            Vector3 moveForward = cameraForward * inputVertical + CameraTrans.right * inputHorizontal;
 
             rb.AddForce(moveForward * PlayerSpeed, ForceMode.Force);
 
