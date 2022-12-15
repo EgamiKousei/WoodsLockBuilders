@@ -89,10 +89,11 @@ public class PlayerMulti : MonoBehaviour
                         playerAnim.Remove(playerAction.user);
                         break;
                     case "Move":
-                        var tes = playerTransform[playerAction.user].rotation;
+                        var tes = playerTransform[playerAction.user].localRotation;
                         tes.y = playerAction.rote_y;
-                        playerTransform[playerAction.user].rotation = tes;
+                        playerTransform[playerAction.user].localRotation = tes;
                         playerTransform[playerAction.user].position = new Vector3(playerAction.pos_x, playerAction.pos_y, playerAction.pos_z);
+                        if(playerAnim[playerAction.user].GetBool(PlayerManager.moveParamHash)==false)
                         playerAnim[playerAction.user].SetBool(PlayerManager.moveParamHash, true);
                         break;
                     case "Attack":

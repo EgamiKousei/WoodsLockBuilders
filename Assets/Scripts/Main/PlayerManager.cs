@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
         {
                 _animator.SetBool(jumpParamHash, true);
                 rb.AddForce(_Transform.up * JumpGravi, ForceMode.Impulse);
-                Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.rotation.y);
+                Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.localRotation.y);
                 StartCoroutine(JumpEnd());
         }
         inputHorizontal = Input.GetAxisRaw("Horizontal");
@@ -76,12 +76,11 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A))
         {
             _animator.SetBool(moveParamHash, true);
-            if(_animator.GetBool("Jump") == false)
-            Multicast.SendPlayerAction("Move", _Transform.position, _Transform.rotation.y);
+            Multicast.SendPlayerAction("Move", _Transform.position, _Transform.localRotation.y);
         }
         else { 
             _animator.SetBool(moveParamHash, false);
-            Multicast.SendPlayerAction("MoveEnd", _Transform.position, _Transform.rotation.y);
+            Multicast.SendPlayerAction("MoveEnd", _Transform.position, _Transform.localRotation.y);
         }
 
         if (rb.velocity.magnitude > PlayerSpeed)
