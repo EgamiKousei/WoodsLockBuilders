@@ -25,6 +25,7 @@ public class LoginClient : MonoBehaviour
         udpClient = new UdpClient(ClientPort);
         //メッセージを受け取る構えをする
         udpClient.BeginReceive(OnReceived, udpClient);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnReceived(System.IAsyncResult result)
@@ -45,7 +46,7 @@ public class LoginClient : MonoBehaviour
                 var messageData = Encoding.UTF8.GetBytes("mes,sage");
                 udpClient.Connect(ipEnd.Address.ToString(), ClientPort);
                 udpClient.Send(messageData, messageData.Length);
-                Debug.Log("ルーム情報受け渡し");
+                Debug.Log("ルーム情報受け渡し"+ ipEnd.Address.ToString());
             }
         }
         else

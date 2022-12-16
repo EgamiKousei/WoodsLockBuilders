@@ -10,7 +10,6 @@ public class LoginServer : MonoBehaviour
     public static string ipAd;
 
     public Text hostId, PlayerName;
-    public GameObject Client;
 
     private void Start()
     {
@@ -25,7 +24,8 @@ public class LoginServer : MonoBehaviour
         }
 
         //最初のポートの開設
-        client = new UdpClient();
+        IPEndPoint localEP =new IPEndPoint(IPAddress.Parse(ipAd), LoginClient.ClientPort);
+        client = new UdpClient(localEP);
     }
 
     public void Login()
@@ -37,7 +37,6 @@ public class LoginServer : MonoBehaviour
             PlayerData.PlayerName = PlayerName.text;
             GetComponent<LoginManager>().SpawnDoor();
             PlayerData.NameList.Add(PlayerName.text);
-            DontDestroyOnLoad(Client);
         }
     }
 
