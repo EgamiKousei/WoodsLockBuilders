@@ -28,7 +28,7 @@ public class OtherPlayer : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.CompareTag("Plane"))
         {
