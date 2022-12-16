@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     float PlayerSpeed;
     public static float Gravi=120f;
     public static float JumpGravi = 100f;
+    private bool isJumping = false;
 
     Rigidbody rb;//リギッドボディ
 
@@ -48,20 +49,24 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Space)&& _animator.GetBool("Jump") == false)
+        if (Input.GetKeyDown(KeyCode.Space)&& !isJumping)
         {
                 _animator.SetBool(jumpParamHash, true);
                 rb.AddForce(_Transform.up * JumpGravi, ForceMode.Impulse);
                 Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.localRotation.y);
-                StartCoroutine(JumpEnd());
+            isJumping = true;
         }
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
     }
-    private IEnumerator JumpEnd()
+
+    private void OnCollisionEnter(Collision collision)
     {
-        yield return new WaitForSeconds(0.7f);
-        _animator.SetBool(jumpParamHash, false);
+        if (collision.gameObject.CompareTag("Plane"))
+        {
+            isJumping = false;
+            _animator.SetBool(jumpParamHash, false);
+        }
     }
 
     // Update is called once per frame

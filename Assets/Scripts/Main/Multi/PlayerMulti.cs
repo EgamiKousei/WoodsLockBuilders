@@ -70,9 +70,7 @@ public class PlayerMulti : MonoBehaviour
                 {
                     case "Jump":
                         rb = playerObjectMap[playerAction.user].GetComponent<Rigidbody>();
-                        playerAnim[playerAction.user].SetBool(PlayerManager.jumpParamHash, true);
                         rb.AddForce(playerTransform[playerAction.user].up * PlayerManager.JumpGravi, ForceMode.Impulse);
-                        StartCoroutine(JumpEnd(playerAnim[playerAction.user]));
                         break;
                     case "MoveEnd":
                         playerAnim[playerAction.user].SetBool(PlayerManager.moveParamHash, false);
@@ -118,11 +116,6 @@ public class PlayerMulti : MonoBehaviour
     {
         yield return new WaitForSeconds(0.45f);
         anim.SetBool(ActionManager.attackParamHash, false);
-    }
-    private IEnumerator JumpEnd(Animator anim)
-    {
-        yield return new WaitForSeconds(0.7f);
-        anim.SetBool(PlayerManager.jumpParamHash, false);
     }
 
     // ÉvÉåÉCÉÑÅ[ÇçÏê¨

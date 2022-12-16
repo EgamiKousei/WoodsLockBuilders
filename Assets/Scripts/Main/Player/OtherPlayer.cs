@@ -4,11 +4,13 @@ public class OtherPlayer : MonoBehaviour
 {
 
     Rigidbody rb;//リギッドボディ
+    Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
 
@@ -17,4 +19,20 @@ public class OtherPlayer : MonoBehaviour
     {
         rb.AddForce(new Vector3(0, -PlayerManager.Gravi, 0));
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Plane"))
+        {
+            _animator.SetBool(PlayerManager.jumpParamHash, false);
+        }
     }
+
+    private void OnTriggerExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Plane"))
+        {
+            _animator.SetBool(PlayerManager.jumpParamHash, true);
+        }
+    }
+}

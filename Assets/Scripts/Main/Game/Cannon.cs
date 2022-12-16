@@ -20,10 +20,10 @@ public class Cannon : MonoBehaviour
     {
         if (Attack == true)
         {
-            ActionManager.playerScean = ActionManager.Player.Cannon;
             chairText.SetActive(true);
             if (Input.GetKeyDown(KeyCode.F))
             {
+                ActionManager.playerScean = ActionManager.Player.Cannon;
                 mainCamera.SetActive(false);
                 cannonCamera.SetActive(true);
                 cannonCamera.GetComponent<CannonCamera>().setCannon();
@@ -33,6 +33,7 @@ public class Cannon : MonoBehaviour
                 cannonCamera.GetComponent<CannonCamera>().endCannon();
                 mainCamera.SetActive(true);
                 cannonCamera.SetActive(false);
+                ActionManager.playerScean = ActionManager.Player.Attack;
             }
             if (Input.GetMouseButton(0)&& Input.GetKey(KeyCode.F))
                 {
@@ -63,7 +64,6 @@ public class Cannon : MonoBehaviour
         {
             Attack = false;
             chairText.SetActive(false);
-            ActionManager.playerScean = ActionManager.Player.Attack;
         }
     }
 }
