@@ -9,12 +9,13 @@ public class LoginClient : MonoBehaviour
     public static int ClientPort = 9000;
 
     bool LoginDoor = false;
+    public GameObject Server;
 
     public void Update()
     {
         if (LoginDoor == true)
         {
-            GetComponent<LoginManager>().SpawnDoor();//Žó‚¯‚Æ‚èŒã
+            Server.GetComponent<LoginManager>().SpawnDoor();//Žó‚¯‚Æ‚èŒã
             LoginDoor = false;
         }
     }
