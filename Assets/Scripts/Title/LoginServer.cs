@@ -10,6 +10,7 @@ public class LoginServer : MonoBehaviour
     public static string ipAd;
 
     public Text hostId, PlayerName;
+    public GameObject Client;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class LoginServer : MonoBehaviour
             PlayerData.PlayerName = PlayerName.text;
             GetComponent<LoginManager>().SpawnDoor();
             PlayerData.NameList.Add(PlayerName.text);
+            DontDestroyOnLoad(Client);
         }
     }
 

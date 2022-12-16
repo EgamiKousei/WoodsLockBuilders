@@ -1037,6 +1037,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1148659575}
     m_Modifications:
+    - target: {fileID: 1098240585241177084, guid: 1fc16f4cebb9ea8499b7ee4b0755f000,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
     - target: {fileID: 1220114370390895347, guid: 1fc16f4cebb9ea8499b7ee4b0755f000,
         type: 3}
       propertyPath: m_RootOrder
@@ -1096,6 +1101,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Box_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025766479398022490, guid: 1fc16f4cebb9ea8499b7ee4b0755f000,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
       objectReference: {fileID: 0}
     - target: {fileID: 9052624064193292494, guid: 1fc16f4cebb9ea8499b7ee4b0755f000,
         type: 3}
@@ -6628,6 +6638,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3383936099847649080, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383936100578475090, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383936100866723882, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 3383936100968868470, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
     - target: {fileID: 4457431117627342192, guid: 116557e3005b3ea44bce06e8a709ccfe,
         type: 3}
       propertyPath: m_RootOrder
@@ -6687,6 +6717,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750729752214127425, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750729752784053987, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750729752866603187, guid: 116557e3005b3ea44bce06e8a709ccfe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Plane
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 116557e3005b3ea44bce06e8a709ccfe, type: 3}
