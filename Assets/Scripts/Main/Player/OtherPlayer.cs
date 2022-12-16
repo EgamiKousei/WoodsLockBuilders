@@ -28,9 +28,9 @@ public class OtherPlayer : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject.CompareTag("Plane"))
+        if (other.gameObject.CompareTag("Plane"))
         {
             _animator.SetBool(PlayerManager.jumpParamHash, true);
         }
