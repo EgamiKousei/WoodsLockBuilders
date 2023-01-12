@@ -15,6 +15,9 @@ public class TitleData
 
     [JsonProperty("data")]
     public string data;
+
+    [JsonProperty("data")]
+    public IPAddress ip ;
     public string ToJson()
     {
         // オブジェクトをjsonに変換
@@ -29,7 +32,7 @@ public class TitleData
     private static Socket mcastSocket;
     private static MulticastOption mcastOption;
 
-    private string add;
+    public static string add;
     private Thread rcvThread; //受信用スレッド
 
     void Awake()
@@ -113,7 +116,8 @@ public class TitleData
                     case "name":
                         Debug.Log(deserialized["data"].ToString() + "がログイン");
                         PlayerData.NameList.Add(deserialized["data"].ToString());
-                        SendPlayerAction("room", LoginServer.datastr);
+                        string send = deserialized["ip"].ToString();
+                        SendPlayerAction("room", LoginServer.datastr,IPAddress.Parse(send));
                         Debug.Log("ルーム情報受け渡し"+ LoginServer.datastr);
                         break;
                     case "room":
@@ -133,7 +137,7 @@ public class TitleData
             Debug.Log(e);
         }
     }
-    public static void SendPlayerAction(string action, string data) //文字列を送信用ポートから送信先ポートに送信
+    public static void SendPlayerAction(string action, string data, IPAddress ip) //文字列を送信用ポートから送信先ポートに送信
     {
         try
         {
@@ -141,9 +145,10 @@ public class TitleData
             {
                 action = action,
                 data = data,
+                ip = IPAddress.Parse(add),
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(titleData.ToJson());
-            IPEndPoint ClientOriginatordest = new IPEndPoint(mcastAddress, mcastPort);
+            IPEndPoint ClientOriginatordest = new IPEndPoint(ip, mcastPort);
             mcastSocket.SendTo(sendBytes, ClientOriginatordest);
         }
         catch { }

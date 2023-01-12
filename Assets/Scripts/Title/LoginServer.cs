@@ -79,7 +79,7 @@ public class LoginServer : MonoBehaviour
             /*client.Connect(hostId.text, LoginClient.ClientPort);
             var message = Encoding.UTF8.GetBytes(PlayerName.text);
             client.Send(message, message.Length);*/
-            LoginSocket.SendPlayerAction("name", PlayerName.text);
+            LoginSocket.SendPlayerAction("name", PlayerName.text,IPAddress.Parse(hostId.text));
             Debug.Log("éÛÇØéÊÇËóvêø");
         }
     }
