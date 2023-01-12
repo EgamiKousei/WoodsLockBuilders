@@ -22,11 +22,13 @@ public class OtherPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.tag!="Player")
             _animator.SetBool(PlayerManager.jumpParamHash, false);
     }
 
     private void OnCollisionExit(Collision other)
     {
+        if (other.gameObject.tag != "Player")
             _animator.SetBool(PlayerManager.jumpParamHash, true);
     }
 }

@@ -64,12 +64,16 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag != "OtherPlayer")
+        {
             isJumping = false;
             _animator.SetBool(jumpParamHash, false);
+        }
     }
 
     private void OnCollisionExit(Collision other)
     {
+        if (other.gameObject.tag != "OtherPlayer")
             isJumping = true;
     }
 

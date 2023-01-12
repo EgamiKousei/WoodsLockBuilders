@@ -19,6 +19,7 @@ TagManager:
   - Slope
   - Cauldron
   - Fence
+  - OtherPlayer
   layers:
   - Default
   - TransparentFX
