@@ -172,7 +172,7 @@ public class ActionManager : MonoBehaviour
                     foreach (var x in PlayerData.PlayMap.Values)
                     {
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
-                            x.zr = rotationAngles.y;
+                            x.yr = rotationAngles.y-90;
                     }
                 }
             }

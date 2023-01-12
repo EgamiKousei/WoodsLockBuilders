@@ -18,7 +18,8 @@ public class RoomSet : MonoBehaviour
             Vector3 arPoint = new Vector3(i.x, i.y,i.z);
             GameObject obj = Instantiate(itemObject, arPoint, Quaternion.identity);
             obj.name = i.num.ToString();
-            obj.transform.Rotate(i.xr, i.yr, i.zr);
+            Vector3 rotationAngles = new Vector3(i.xr, i.yr, i.zr);
+            obj.transform.rotation= Quaternion.Euler(rotationAngles);
             obj.transform.parent = CreateMap.transform;
             if (objNum <= i.num)
                 objNum = i.num;
