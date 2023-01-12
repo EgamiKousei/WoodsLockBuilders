@@ -67,29 +67,11 @@ public class TitleData
             EndPoint localEP = new IPEndPoint(localIPAddr, mcastPort);
 
             mcastSocket.Bind(localEP);
-
-            mcastOption = new MulticastOption(mcastAddress, localIPAddr);
-
-            mcastSocket.SetSocketOption(SocketOptionLevel.IP,
-                                        SocketOptionName.AddMembership,
-                                        mcastOption);
-            MulticastOptionProperties();
         }
 
         catch (Exception e)
         {
             Debug.Log(e);
-        }
-    }
-    private void MulticastOptionProperties()
-    {
-        if (mcastOption != null)
-        {
-            Debug.Log(mcastOption.Group + " , " + mcastOption.LocalAddress);
-        }
-        else
-        {
-            Debug.Log("current multicast group is: none , current multicast local address is: none");
         }
     }
 
