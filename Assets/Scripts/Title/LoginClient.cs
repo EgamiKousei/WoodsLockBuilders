@@ -46,16 +46,17 @@ public class LoginClient : MonoBehaviour
                 var messageData = Encoding.UTF8.GetBytes(LoginServer.datastr);
                 udpClient.Connect(ipEnd.Address.ToString(), ClientPort);
                 udpClient.Send(messageData, messageData.Length);
-                Debug.Log("ルーム情報受け渡し"+ ipEnd.Address.ToString());
+                Debug.Log("ルーム情報受け渡し"+ ipEnd.Address.ToString()+ LoginServer.datastr);
             }
         }
         else
         {
+            Debug.Log("ルーム情報受け取り");
             StreamWriter wreiter = new StreamWriter(LoginServer.PlayPash, false);
             wreiter.WriteLine(message);
             wreiter.Flush();
             wreiter.Close();
-            Debug.Log("ルーム情報受け取り");
+            Debug.Log("受け取り完了");
             LoginDoor = true;
         }
         getUdp.BeginReceive(OnReceived, getUdp);
