@@ -62,8 +62,8 @@ public class LoginClient : MonoBehaviour
         getUdp.BeginReceive(OnReceived, getUdp);
     }
 
-    private void OnApplicationQuit()
+    /*private void OnApplicationQuit()
     {
         udpClient.Close();
-    }
+    }*/
 }

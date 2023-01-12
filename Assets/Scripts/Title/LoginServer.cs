@@ -13,13 +13,24 @@ public class LoginServer : MonoBehaviour
     public Text hostId, PlayerName;
 
     public static string PlayPash, SavePash,datastr;
+    public static bool LoginDoor = false;
+
+
+    public void Update()
+    {
+        if (LoginDoor == true)
+        {
+            GetComponent<LoginManager>().SpawnDoor();//受けとり後
+            LoginDoor = false;
+        }
+    }
 
     private void Start()
     {
         PlayerData.NameList.Clear();
 
         // ホスト名からIPアドレスを取得する
-        IPAddress[] adrList = Dns.GetHostAddresses(Dns.GetHostName());
+        /*IPAddress[] adrList = Dns.GetHostAddresses(Dns.GetHostName());
         foreach (IPAddress address in adrList)
         {
             ipAd = address.ToString();
@@ -29,7 +40,7 @@ public class LoginServer : MonoBehaviour
         //最初のポートの開設
         IPEndPoint localEP =new IPEndPoint(IPAddress.Parse(ipAd), LoginClient.ClientPort);
         client = new UdpClient(localEP);
-
+        */
          PlayPash = Application.dataPath + "/PlayRoomData.json";
          SavePash = Application.dataPath + "/SaveRoomData.json";
 
@@ -65,15 +76,17 @@ public class LoginServer : MonoBehaviour
         {
             PlayerData.PlayerName = PlayerName.text;
             //ルームデータ受け取り要請
-            client.Connect(hostId.text, LoginClient.ClientPort);
+            /*client.Connect(hostId.text, LoginClient.ClientPort);
             var message = Encoding.UTF8.GetBytes(PlayerName.text);
-            client.Send(message, message.Length);
+            client.Send(message, message.Length);*/
+            LoginSocket.SendPlayerAction("name", PlayerName.text);
             Debug.Log("受け取り要請");
         }
     }
-
-    private void OnApplicationQuit()
+    /*
+    
+     private void OnApplicationQuit()
     {
         client.Close();
-    }
+    }*/
 }
