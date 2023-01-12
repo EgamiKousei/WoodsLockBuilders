@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.IO;
 
 public class LoginClient : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class LoginClient : MonoBehaviour
         udpClient = new UdpClient(ClientPort);
         //メッセージを受け取る構えをする
         udpClient.BeginReceive(OnReceived, udpClient);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void OnReceived(System.IAsyncResult result)
@@ -35,16 +36,14 @@ public class LoginClient : MonoBehaviour
 
         byte[] getByte = getUdp.EndReceive(result, ref ipEnd);
         string message = Encoding.UTF8.GetString(getByte);
-        if (message.IndexOf(",") < 1)
+        if (message.IndexOf("{") < 1)
         {
             if (!PlayerData.NameList.Contains(message))
             {
                 Debug.Log(message + "がログイン");
                 PlayerData.NameList.Add(message);
                 //ルームデータ受け渡し
-                //OtherRoomData.jsonの内容を送信
-                //var message = string.Join(",", PlayerData.MapList);
-                var messageData = Encoding.UTF8.GetBytes("mes,sage");
+                var messageData = Encoding.UTF8.GetBytes(LoginServer.datastr);
                 udpClient.Connect(ipEnd.Address.ToString(), ClientPort);
                 udpClient.Send(messageData, messageData.Length);
                 Debug.Log("ルーム情報受け渡し"+ ipEnd.Address.ToString());
@@ -53,9 +52,10 @@ public class LoginClient : MonoBehaviour
         else
         {
             Debug.Log("ルーム情報受け取り");
-            //ルームデータ受け取り
-            //OtherRoomData.jsonに上書き保存
-            //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
+            StreamWriter wreiter = new StreamWriter(LoginServer.PlayPash, false);
+            wreiter.WriteLine(message);
+            wreiter.Flush();
+            wreiter.Close();
             LoginDoor = true;
         }
         getUdp.BeginReceive(OnReceived, getUdp);

@@ -73,10 +73,7 @@ public class PlayerData : MonoBehaviour
     {
         ItemDataPash = Application.dataPath + "/ItemData.json";   // ItemData.jsonまでのパス
         SavePash = Application.dataPath + "/SaveData.json";   // SaveData.jsonまでのパス
-        //if (NameList[0] == PlayerName)
-            RoomPash = Application.dataPath + "/RoomData.json";
-        //else
-        //    RoomPash = Application.dataPath + "/OtherRoomData.json";
+        RoomPash = Application.dataPath + "/PlayRoomData.json";
         ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
         foreach (var i in im.data)
         {
