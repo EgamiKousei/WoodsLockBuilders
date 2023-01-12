@@ -71,12 +71,14 @@ public class PlayerData : MonoBehaviour
 
     private void Awake()
     {
+        NameList.Add(PlayerName);
+
         ItemDataPash = Application.dataPath + "/ItemData.json";   // ItemData.jsonまでのパス
         SavePash = Application.dataPath + "/SaveData.json";   // SaveData.jsonまでのパス
-        if (NameList[0] == PlayerName)
-            RoomPash = Application.dataPath + "/SaveRoomData.json";
-        else
+        if (NameList[0] != PlayerName|| NameList[0]==null)
             RoomPash = Application.dataPath + "/PlayRoomData.json";
+        else
+            RoomPash = Application.dataPath + "/SaveRoomData.json";
 
         ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
         foreach (var i in im.data)
@@ -98,6 +100,14 @@ public class PlayerData : MonoBehaviour
             else
                 break;
         }
+    }
+
+    public void Start()
+    {
+        if (NameList[0] != PlayerName || NameList[0] == null)
+            RoomPash = Application.dataPath + "/PlayRoomData.json";
+        else
+            RoomPash = Application.dataPath + "/SaveRoomData.json";
     }
 
     public ItemData LoadFile(string dataPath)

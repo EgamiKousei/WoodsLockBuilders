@@ -16,8 +16,8 @@ public class TitleData
     [JsonProperty("data")]
     public string data;
 
-    [JsonProperty("data")]
-    public IPAddress ip ;
+    [JsonProperty("ip")]
+    public string ip ;
     public string ToJson()
     {
         // オブジェクトをjsonに変換
@@ -44,8 +44,7 @@ public class TitleData
             add = address.ToString();
             Debug.Log(add);
         }
-        mcastAddress = IPAddress.Parse("224.168.100.1");
-        mcastPort = 11001;
+        mcastPort = 9000;
 
         // Start a multicast group.
         startMulticast();
@@ -84,11 +83,12 @@ public class TitleData
     {
         bool done = false;
         ASCIIEncoding ASCII = new ASCIIEncoding();
-        EndPoint remote_endpoint = new IPEndPoint(IPAddress.Any, 0);
+        EndPoint remote_endpoint = null;
         try
         {
             while (!done)
             {
+                Debug.Log("がログイン");
                 byte[] data = new byte[2000000];
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
@@ -127,13 +127,17 @@ public class TitleData
             {
                 action = action,
                 data = data,
-                ip = IPAddress.Parse(add),
+                ip = add,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(titleData.ToJson());
             IPEndPoint ClientOriginatordest = new IPEndPoint(ip, mcastPort);
             mcastSocket.SendTo(sendBytes, ClientOriginatordest);
+            Debug.Log(titleData.ToJson());
         }
-        catch { }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
     }
 
     private void OnApplicationQuit() //送受信用ポートを閉じつつ受信用スレッドも廃止
