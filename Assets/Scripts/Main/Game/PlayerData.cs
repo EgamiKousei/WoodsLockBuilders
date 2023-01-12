@@ -104,7 +104,7 @@ public class PlayerData : MonoBehaviour
 
     public void Start()
     {
-        if (NameList[0] != PlayerName || NameList[0] == null)
+        if (NameList.Count==0)
             RoomPash = Application.dataPath + "/PlayRoomData.json";
         else
             RoomPash = Application.dataPath + "/SaveRoomData.json";
