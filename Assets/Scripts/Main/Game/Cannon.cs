@@ -21,7 +21,7 @@ public class Cannon : MonoBehaviour
         if (Attack == true)
         {
             chairText.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (ActionManager.playerScean == ActionManager.Player.Attack&&Input.GetKeyDown(KeyCode.F))
             {
                 ActionManager.playerScean = ActionManager.Player.Cannon;
                 mainCamera.SetActive(false);
@@ -46,7 +46,11 @@ public class Cannon : MonoBehaviour
                     Debug.Log("âìäuçUåÇ");
                     aimPlace.SetActive(false);
                 }
+        }else if (ActionManager.playerScean != ActionManager.Player.Attack)
+        {
+            chairText.SetActive(false);
         }
+
     }
 
     private void OnTriggerEnter(Collider other)

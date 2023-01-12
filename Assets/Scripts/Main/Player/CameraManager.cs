@@ -30,7 +30,7 @@ public class CameraManager : MonoBehaviour
     {
         _Transform.position = new Vector3(_PlayerTransform.localPosition.x,0, _PlayerTransform.localPosition.z);
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1)&&ActionManager.playerScean !=ActionManager.Player.Set)
         {
             CameraFlag = Camera.move;
         }

@@ -22,17 +22,11 @@ public class OtherPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Plane"))
-        {
             _animator.SetBool(PlayerManager.jumpParamHash, false);
-        }
     }
 
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("Plane"))
-        {
             _animator.SetBool(PlayerManager.jumpParamHash, true);
-        }
     }
 }

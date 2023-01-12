@@ -7,10 +7,10 @@ public class PlayerManager : MonoBehaviour
     Transform _Transform;
 
     //ˆÚ“®‘¬“x‚Ì’è‹`
-    float NomalSpeed = 300f;
-     float SprintSpeed = 600f;
+    float NomalSpeed = 400f;
+     float SprintSpeed = 800f;
     float PlayerSpeed;
-    public static float Gravi=120f;
+    public static float Gravi=150f;
     public static float JumpGravi = 100f;
     private bool isJumping = false;
 
@@ -56,17 +56,21 @@ public class PlayerManager : MonoBehaviour
                 Multicast.SendPlayerAction("Jump", _Transform.position, _Transform.localRotation.y);
             isJumping = true;
         }
+        if (_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Move")
+            isJumping = false;
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Plane"))
-        {
             isJumping = false;
             _animator.SetBool(jumpParamHash, false);
-        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+            isJumping = true;
     }
 
     // Update is called once per frame

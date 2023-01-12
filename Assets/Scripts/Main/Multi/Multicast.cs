@@ -93,6 +93,8 @@ public class Multicast : MonoBehaviour
                 JObject deserialized = JObject.Parse(json);
                 switch (deserialized["action"].ToString())
                 {
+                    case "set":
+                        break;
                     default:
                         var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
                         PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);

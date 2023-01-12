@@ -42,6 +42,7 @@ public class LoginClient : MonoBehaviour
                 Debug.Log(message + "がログイン");
                 PlayerData.NameList.Add(message);
                 //ルームデータ受け渡し
+                //OtherRoomData.jsonの内容を送信
                 //var message = string.Join(",", PlayerData.MapList);
                 var messageData = Encoding.UTF8.GetBytes("mes,sage");
                 udpClient.Connect(ipEnd.Address.ToString(), ClientPort);
@@ -53,6 +54,7 @@ public class LoginClient : MonoBehaviour
         {
             Debug.Log("ルーム情報受け取り");
             //ルームデータ受け取り
+            //OtherRoomData.jsonに上書き保存
             //PlayerData.NameList = deserialized["message"].ToString().Split(',').ToList();
             LoginDoor = true;
         }

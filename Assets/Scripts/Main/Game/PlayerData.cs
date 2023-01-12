@@ -17,6 +17,7 @@ public class itemData
     public int invnum;
     public int bagnum;
     public int invno;
+    public int bagno;
 }
 
 [System.Serializable]
@@ -25,10 +26,30 @@ public class SaveData
     public int hp;
     public string color;
 }
+
+[System.Serializable]
+public class RoomData
+{
+    public roomData[] data;
+}
+
+[System.Serializable]
+public class roomData
+{
+    public string name;
+    public float x;
+    public float y;
+    public float z;
+    public float xr;
+    public float yr;
+    public float zr;
+    public int num;
+}
 public class PlayerData : MonoBehaviour
 {
     private string ItemDataPash;
     private string SavePash;
+    private string RoomPash;
 
     //名前
     public static string PlayerName = "test2";
@@ -37,9 +58,8 @@ public class PlayerData : MonoBehaviour
     public static List<string> NameList = new List<string>();
 
     //プレイ部屋データ
+    public static Dictionary<int, roomData> PlayMap = new Dictionary<int, roomData>();
     //時間帯データ（ルームマスター中機能）
-
-    //個人部屋データ　マップ配置リスト
 
     //プレイヤーデータ　HP/色
     public static Dictionary<string, string> SaveData = new Dictionary<string, string>();
@@ -53,14 +73,30 @@ public class PlayerData : MonoBehaviour
     {
         ItemDataPash = Application.dataPath + "/ItemData.json";   // ItemData.jsonまでのパス
         SavePash = Application.dataPath + "/SaveData.json";   // SaveData.jsonまでのパス
+        //if (NameList[0] == PlayerName)
+            RoomPash = Application.dataPath + "/RoomData.json";
+        //else
+        //    RoomPash = Application.dataPath + "/OtherRoomData.json";
         ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
         foreach (var i in im.data)
         {
-            ItemBox.Add(i.name, i);
+            if (i.name != "")
+                ItemBox.Add(i.name, i);
+            else
+                break;
         }
         SaveData sv = LoadSaveFile(SavePash);        // jsonファイルロード
         var json = JsonConvert.SerializeObject(sv);
         SaveData = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+        RoomData rm = LoadRoomFile(RoomPash);// jsonファイルロード
+        foreach (var i in rm.data)
+        {
+            if (i.name != "")
+                PlayMap.Add(i.num, i);
+            else
+                break;
+        }
     }
 
     public ItemData LoadFile(string dataPath)
@@ -79,6 +115,14 @@ public class PlayerData : MonoBehaviour
         return JsonUtility.FromJson<SaveData>(datastr);
     }
 
+    public RoomData LoadRoomFile(string dataPath)
+    {
+        StreamReader reader = new StreamReader(dataPath, System.Text.Encoding.UTF8);
+        string datastr = reader.ReadToEnd();
+        reader.Close();
+        return JsonUtility.FromJson<RoomData>(datastr);
+    }
+
     private void OnApplicationQuit()
     {
         StreamWriter wreiter = new StreamWriter(SavePash, false);
@@ -95,7 +139,7 @@ public class PlayerData : MonoBehaviour
 
         wreiter = new StreamWriter(ItemDataPash, false);
 
-        itemData[] Idata=new itemData[9];
+        itemData[] Idata=new itemData[20];
         int n = 0;
         foreach (var i in ItemBox.Values)
         {
@@ -110,5 +154,23 @@ public class PlayerData : MonoBehaviour
             wreiter.WriteLine(jsonstr);
             wreiter.Flush();
             wreiter.Close();
+
+        wreiter = new StreamWriter(RoomPash, false);
+
+        roomData[] Rdata = new roomData[255];
+        n = 0;
+        foreach (var i in PlayMap.Values)
+        {
+            Rdata[n] = i;
+            n++;
+        }
+        var data3 = new RoomData
+        {
+            data = Rdata
+        };
+        jsonstr = JsonUtility.ToJson(data3);
+        wreiter.WriteLine(jsonstr);
+        wreiter.Flush();
+        wreiter.Close();
     }
 }

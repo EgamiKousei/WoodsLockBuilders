@@ -5,6 +5,20 @@ TagManager:
   serializedVersion: 2
   tags:
   - Plane
+  - Gate
+  - furniture
+  - Box
+  - Bed
+  - Floor
+  - LargeChest
+  - Chest
+  - Wall1
+  - Wall2
+  - Turret
+  - Stairs
+  - Slope
+  - Cauldron
+  - Fence
   layers:
   - Default
   - TransparentFX
