@@ -154,6 +154,33 @@ public class ItemSet : MonoBehaviour
             case "Stone":
                 itemNo = 2;
                 break;
+            case "Wall":
+                itemNo = 3;
+                break;
+            case "Stairs":
+                itemNo = 4;
+                break;
+            case "Fence":
+                itemNo = 5;
+                break;
+            case "Floor":
+                itemNo = 6;
+                break;
+            case "Slope":
+                itemNo = 7;
+                break;
+            case "Turret":
+                itemNo = 8;
+                break;
+            case "Chest":
+                itemNo = 9;
+                break;
+            case "LargeChest":
+                itemNo = 10;
+                break;
+            case "Bed":
+                itemNo = 11;
+                break;
         }
         return itemNo;
     }

@@ -76,8 +76,6 @@ public class PlayerMulti : MonoBehaviour
                         playerAnim[playerAction.user].SetBool(PlayerManager.moveParamHash, false);
                         break;
                     case "logout":
-                        //var otherColor = playerTransform[playerAction.user].Find("Body_08b").gameObject;
-                        //Destroy(otherColor.GetComponent<SkinnedMeshRenderer>().materials[1].shader);
                         Destroy(playerObjectMap[playerAction.user]);
                         //オブジェクトリストとオブジェクトリスト
                         playerObjectMap.Remove(playerAction.user);

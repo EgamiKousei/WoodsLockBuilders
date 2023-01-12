@@ -150,7 +150,7 @@ public class PlayerData : MonoBehaviour
 
         wreiter = new StreamWriter(ItemDataPash, false);
 
-        itemData[] Idata=new itemData[20];
+        itemData[] Idata=new itemData[12];
         int n = 0;
         foreach (var i in ItemBox.Values)
         {
@@ -185,6 +185,7 @@ public class PlayerData : MonoBehaviour
             data = Rdata
         };
         var jsonstr = JsonUtility.ToJson(data3);
+        Debug.Log(jsonstr);
         wreiter.WriteLine(jsonstr);
         wreiter.Flush();
         wreiter.Close();

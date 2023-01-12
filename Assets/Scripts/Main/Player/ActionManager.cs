@@ -8,7 +8,7 @@ public class ActionManager : MonoBehaviour
     int ItemNum=1;
     private Animator _animator;
     public static int attackParamHash;
-    public GameObject mainCamera, gridCamera,Grid,pivot, CreateMap;
+    public GameObject mainCamera, gridCamera,Grid,pivot, CreateMap,Script;
     GameObject itemObject=null,itemNow;
     public Sprite nullItem;
 
@@ -121,9 +121,15 @@ public class ActionManager : MonoBehaviour
                 {
                     if (i.invno == ItemNum&&i.category=="â∆ãÔ"&&i.invnum>0)
                     {
-                        itemObject = itemObject ?? (GameObject)Resources.Load(i.name);
-                        Vector3 arPoint = new Vector3(Mathf.Floor(hit.point.x) + 0.5f,distance, Mathf.Floor(hit.point.z) + 0.5f);
+                        itemObject = (GameObject)Resources.Load(i.name);
+                        Vector3 arPoint;
+                        if (i.name == "Box")
+                             arPoint = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, distance+0.5f, Mathf.Floor(hit.point.z) + 0.5f);
+                        else
+                             arPoint = new Vector3(Mathf.Floor(hit.point.x) + 0.5f, distance, Mathf.Floor(hit.point.z) + 0.5f);
                         GameObject obj = Instantiate(itemObject, arPoint, Quaternion.identity);
+                        Vector3 rotationAngles = new Vector3(-90, 0, 0);
+                        obj.transform.rotation = Quaternion.Euler(rotationAngles);
                         obj.transform.parent = CreateMap.transform;
                         RoomSet.objNum++;
                         obj.name = RoomSet.objNum.ToString();
@@ -131,10 +137,13 @@ public class ActionManager : MonoBehaviour
                         {
                             name = i.name,
                             x = Mathf.Floor(hit.point.x) + 0.5f,
-                            y= distance,
-                            z= Mathf.Floor(hit.point.z) + 0.5f,
-                            num= RoomSet.objNum,
+                            y = distance,
+                            z = Mathf.Floor(hit.point.z) + 0.5f,
+                            xr = -90,
+                            num = RoomSet.objNum,
                         };
+                        if (i.name == "Box")
+                            roomData.y += 0.5f;
                         PlayerData.PlayMap.Add(RoomSet.objNum, roomData);
                         i.invnum --;
                         itemNow.transform.Find("Text (Legacy)").gameObject.GetComponent<Text>().text = i.invnum.ToString();
@@ -153,9 +162,9 @@ public class ActionManager : MonoBehaviour
                             i.invno = 0;
                             setItem.GetComponent<ItemSet>().SetItem();
                         }
+                        Script.GetComponent<PlayerData>().SaveRoom();
                     }
                 }
-                GetComponent<PlayerData>().SaveRoom();
             }
         }
         //âÒì]èàóù
@@ -173,9 +182,9 @@ public class ActionManager : MonoBehaviour
                     foreach (var x in PlayerData.PlayMap.Values)
                     {
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
-                            x.yr = rotationAngles.y-90;
+                            x.yr = rotationAngles.y;
                     }
-                    GetComponent<PlayerData>().SaveRoom();
+                    Script.GetComponent<PlayerData>().SaveRoom();
                 }
             }
         }
@@ -188,8 +197,9 @@ public class ActionManager : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.tag!="Plane"&& hit.collider.gameObject.tag!=null)
+                if (hit.collider.gameObject.tag!="Plane"&& hit.collider.gameObject.tag!=null&& hit.collider.gameObject.tag != "Untagged")
                 {
+                    if(hit.collider.gameObject!=null)
                     SetItem(hit.collider.gameObject.tag, hit.collider.gameObject);
                 }
             }
@@ -222,7 +232,7 @@ public class ActionManager : MonoBehaviour
             }
         }
         setItem.GetComponent<ItemSet>().SetItem();
-        if (name == "Box")
+        /*if (name == "Box")
         {
             if (RoomSet.objNum == Int32.Parse(hit.transform.parent.name))
                 RoomSet.objNum--;
@@ -230,13 +240,13 @@ public class ActionManager : MonoBehaviour
             Destroy(hit.transform.parent.gameObject);
         }
         else
-        {
+        {*/
             if (RoomSet.objNum == Int32.Parse(hit.name))
                 RoomSet.objNum--;
             PlayerData.PlayMap.Remove(key: Int32.Parse(hit.name));
             Destroy(hit);
-        }
-        GetComponent<PlayerData>().SaveRoom();
+        //}
+        Script.GetComponent<PlayerData>().SaveRoom();
     }
 
 

@@ -28,24 +28,12 @@ public class LoginClient : MonoBehaviour
     public UdpClient udpClient;
     public static int ClientPort = 9000;
 
-    bool LoginDoor = false;
-    public GameObject Server;
-
-    public void Update()
-    {
-        if (LoginDoor == true)
-        {
-            Server.GetComponent<LoginManager>().SpawnDoor();//受けとり後
-            LoginDoor = false;
-        }
-    }
-
     void Start()
     {
         udpClient = new UdpClient(ClientPort);
         //メッセージを受け取る構えをする
         udpClient.BeginReceive(OnReceived, udpClient);
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnReceived(System.IAsyncResult result)

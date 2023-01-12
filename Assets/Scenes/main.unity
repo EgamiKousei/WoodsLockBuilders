@@ -11155,10 +11155,19 @@ MonoBehaviour:
   ob_ItemBox: {fileID: 343839028}
   ItemBox_2: {fileID: 433607325}
   itemImage:
-  - {fileID: 110509745, guid: bab37cbac86c0fa4b8fbe65ab8cf201b, type: 3}
-  - {fileID: -1244991440, guid: bab37cbac86c0fa4b8fbe65ab8cf201b, type: 3}
-  - {fileID: -1423373234, guid: bab37cbac86c0fa4b8fbe65ab8cf201b, type: 3}
-  nullItem: {fileID: 1406818292, guid: bab37cbac86c0fa4b8fbe65ab8cf201b, type: 3}
+  - {fileID: -1924067696, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: 420120542, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -38801049, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: 1488762837, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -1776869735, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -782260495, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -78924718, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -996222051, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -1408857429, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: -1807936952, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: 1282683493, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  - {fileID: 1007221593, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
+  nullItem: {fileID: 1198433730, guid: 22118aa80f5ee8046b982b5038e37154, type: 3}
 --- !u!4 &1261544164
 Transform:
   m_ObjectHideFlags: 0
@@ -20013,6 +20022,11 @@ PrefabInstance:
       objectReference: {fileID: 1564300713}
     - target: {fileID: 8285774345202332422, guid: a16af26489bdcfc4c9f96544d4c46060,
         type: 3}
+      propertyPath: Script
+      value: 
+      objectReference: {fileID: 104483133}
+    - target: {fileID: 8285774345202332422, guid: a16af26489bdcfc4c9f96544d4c46060,
+        type: 3}
       propertyPath: setItem
       value: 
       objectReference: {fileID: 1261544162}
@@ -20025,7 +20039,7 @@ PrefabInstance:
         type: 3}
       propertyPath: nullItem
       value: 
-      objectReference: {fileID: 1406818292, guid: bab37cbac86c0fa4b8fbe65ab8cf201b,
+      objectReference: {fileID: 1198433730, guid: 22118aa80f5ee8046b982b5038e37154,
         type: 3}
     - target: {fileID: 8285774345202332422, guid: a16af26489bdcfc4c9f96544d4c46060,
         type: 3}
