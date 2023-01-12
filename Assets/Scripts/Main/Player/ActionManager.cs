@@ -155,6 +155,7 @@ public class ActionManager : MonoBehaviour
                         }
                     }
                 }
+                GetComponent<PlayerData>().SaveRoom();
             }
         }
         //âÒì]èàóù
@@ -174,6 +175,7 @@ public class ActionManager : MonoBehaviour
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
                             x.yr = rotationAngles.y-90;
                     }
+                    GetComponent<PlayerData>().SaveRoom();
                 }
             }
         }
@@ -234,6 +236,7 @@ public class ActionManager : MonoBehaviour
             PlayerData.PlayMap.Remove(key: Int32.Parse(hit.name));
             Destroy(hit);
         }
+        GetComponent<PlayerData>().SaveRoom();
     }
 
 

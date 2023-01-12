@@ -73,7 +73,11 @@ public class PlayerData : MonoBehaviour
     {
         ItemDataPash = Application.dataPath + "/ItemData.json";   // ItemData.jsonまでのパス
         SavePash = Application.dataPath + "/SaveData.json";   // SaveData.jsonまでのパス
-        RoomPash = Application.dataPath + "/PlayRoomData.json";
+        if (NameList[0] == PlayerName)
+            RoomPash = Application.dataPath + "/SaveRoomData.json";
+        else
+            RoomPash = Application.dataPath + "/PlayRoomData.json";
+
         ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
         foreach (var i in im.data)
         {
@@ -152,10 +156,15 @@ public class PlayerData : MonoBehaviour
             wreiter.Flush();
             wreiter.Close();
 
-        wreiter = new StreamWriter(RoomPash, false);
+        SaveRoom();
+    }
+
+    public void SaveRoom()
+    {
+        StreamWriter wreiter = new StreamWriter(RoomPash, false);
 
         roomData[] Rdata = new roomData[255];
-        n = 0;
+       int n = 0;
         foreach (var i in PlayMap.Values)
         {
             Rdata[n] = i;
@@ -165,7 +174,7 @@ public class PlayerData : MonoBehaviour
         {
             data = Rdata
         };
-        jsonstr = JsonUtility.ToJson(data3);
+        var jsonstr = JsonUtility.ToJson(data3);
         wreiter.WriteLine(jsonstr);
         wreiter.Flush();
         wreiter.Close();

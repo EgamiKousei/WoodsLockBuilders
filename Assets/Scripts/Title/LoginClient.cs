@@ -51,11 +51,11 @@ public class LoginClient : MonoBehaviour
         }
         else
         {
-            Debug.Log("ƒ‹[ƒ€î•ñó‚¯æ‚è");
             StreamWriter wreiter = new StreamWriter(LoginServer.PlayPash, false);
             wreiter.WriteLine(message);
             wreiter.Flush();
             wreiter.Close();
+            Debug.Log("ƒ‹[ƒ€î•ñó‚¯æ‚è");
             LoginDoor = true;
         }
         getUdp.BeginReceive(OnReceived, getUdp);
