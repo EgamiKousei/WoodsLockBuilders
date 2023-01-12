@@ -104,7 +104,7 @@ public class TitleData
         {
             while (!done)
             {
-                byte[] data = new byte[200];
+                byte[] data = new byte[2000000];
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
                 JObject deserialized = JObject.Parse(json);
