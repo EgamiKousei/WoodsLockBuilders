@@ -214,5 +214,6 @@ public class PlayerData : MonoBehaviour
         }
         //”z’u‚µ’¼‚µ
         RoomSet.RoomData = data;
+        Debug.Log(data);
     }
 }

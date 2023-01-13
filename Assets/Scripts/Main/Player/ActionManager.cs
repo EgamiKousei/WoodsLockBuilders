@@ -168,14 +168,12 @@ public class ActionManager : MonoBehaviour
             }
         }
         //âÒì]èàóù
-        if (playerScean == Player.Set&&Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(1))
+        else if (playerScean == Player.Set&&Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(1))
         {
             Ray ray = gridCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit))
             {
-                if (name != "Box")
-                {
                     Vector3 rotationAngles = hit.collider.gameObject.transform.rotation.eulerAngles;
                     rotationAngles.y = rotationAngles.y + 90;
                     hit.collider.gameObject.transform.rotation = Quaternion.Euler(rotationAngles);
@@ -184,7 +182,6 @@ public class ActionManager : MonoBehaviour
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
                             x.yr = rotationAngles.y;
                     }
-                }
             }
         }
 
