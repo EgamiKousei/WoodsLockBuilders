@@ -49,7 +49,7 @@ public class PlayerData : MonoBehaviour
 {
     private string ItemDataPash;
     private string SavePash;
-    private string RoomPash;
+    public static string RoomPash;
 
     //名前
     public static string PlayerName = "test";
@@ -68,6 +68,8 @@ public class PlayerData : MonoBehaviour
     public static Dictionary<string, itemData> ItemBox = new Dictionary<string, itemData>();
 
     //アイテム基本データ　アイテム名:アイテム名/説明/耐久/攻撃力/材料名1/材料名2/必要数1/必要数2
+
+   public static string Room_id;
 
     private void Awake()
     {
@@ -104,6 +106,8 @@ public class PlayerData : MonoBehaviour
 
     public void Start()
     {
+        if (Room_id == null)
+            Room_id = "test";
         if (NameList.Count==0)
             RoomPash = Application.dataPath + "/PlayRoomData.json";
         else
@@ -126,7 +130,7 @@ public class PlayerData : MonoBehaviour
         return JsonUtility.FromJson<SaveData>(datastr);
     }
 
-    public RoomData LoadRoomFile(string dataPath)
+    public static RoomData LoadRoomFile(string dataPath)
     {
         StreamReader reader = new StreamReader(dataPath, System.Text.Encoding.UTF8);
         string datastr = reader.ReadToEnd();
@@ -165,16 +169,14 @@ public class PlayerData : MonoBehaviour
             wreiter.WriteLine(jsonstr);
             wreiter.Flush();
             wreiter.Close();
-
-        SaveRoom();
     }
 
     public void SaveRoom()
     {
         StreamWriter wreiter = new StreamWriter(RoomPash, false);
 
-        roomData[] Rdata = new roomData[255];
-       int n = 0;
+        roomData[] Rdata = new roomData[PlayMap.Count];
+        int n = 0;
         foreach (var i in PlayMap.Values)
         {
             Rdata[n] = i;
@@ -186,9 +188,31 @@ public class PlayerData : MonoBehaviour
         };
         var jsonstr = JsonUtility.ToJson(data3);
         //マルチキャストで共有
-        Debug.Log(jsonstr);
+        Multicast.SendRoom(jsonstr);
         wreiter.WriteLine(jsonstr);
         wreiter.Flush();
         wreiter.Close();
+    }
+
+    public static void SetRoom(string data,string RoomPash)
+    {
+        //Json上書き
+        StreamWriter wreiter = new StreamWriter(RoomPash, false);
+        wreiter.WriteLine(data);
+        wreiter.Flush();
+        wreiter.Close();
+
+        //辞書更新
+        PlayMap.Clear();
+        RoomData rm = LoadRoomFile(RoomPash);// jsonファイルロード
+        foreach (var i in rm.data)
+        {
+            if (i.name != "")
+                PlayMap.Add(i.num, i);
+            else
+                break;
+        }
+        //配置し直し
+        RoomSet.RoomData = data;
     }
 }

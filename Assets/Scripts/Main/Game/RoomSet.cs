@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class RoomSet : MonoBehaviour
 {
-    public GameObject CreateMap;
-    GameObject itemObject = null;
+    private GameObject itemObject=null;
     public static int objNum=0;
+    public GameObject CreateMap;
+    public static string RoomData=null;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
+    {
+        SetRoom();
+    }
+    void Update()
+    {
+        // ユーザーの行動情報があったら同期処理を行い、ユーザーの行動情報を初期化
+        if (RoomData != null)
+        {
+            SetRoom();
+            RoomData = null;
+        }
+    }
+    private void SetRoom()
     {
         foreach (var i in PlayerData.PlayMap.Values)
         {

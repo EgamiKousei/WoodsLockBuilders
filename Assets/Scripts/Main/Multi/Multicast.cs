@@ -87,16 +87,17 @@ public class Multicast : MonoBehaviour
         {
             while (!done)
             {
-                byte[] data = new byte[200];
+                byte[] data = new byte[200000];
                 mcastSocket.ReceiveFrom(data, ref remote_endpoint);
                 var json = Encoding.UTF8.GetString(data);
                 JObject deserialized = JObject.Parse(json);
                 switch (deserialized["action"].ToString())
                 {
                     case "set":
+                        PlayerData.SetRoom(deserialized["data"].ToString(),PlayerData.RoomPash);
                         break;
                     default:
-                        var allUserActionHash = PlayerActionData.FromJson(deserialized, 1);
+                        var allUserActionHash = PlayerActionData.FromJson(deserialized, PlayerData.Room_id);
                         PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
                         break;
                 }
@@ -107,6 +108,24 @@ public class Multicast : MonoBehaviour
             Debug.Log(e);
         }
     }
+
+    public static void SendRoom(string data) //文字列を送信用ポートから送信先ポートに送信
+    {
+        try
+        {
+            var userActionData = new RoomDataMulti
+            {
+                action = "set",
+                room_id = PlayerData.Room_id,
+                data = data,
+            };
+            byte[] sendBytes = Encoding.UTF8.GetBytes(userActionData.ToJson());
+            IPEndPoint ClientOriginatordest = new IPEndPoint(mcastAddress, mcastPort);
+            mcastSocket.SendTo(sendBytes, ClientOriginatordest);
+        }
+        catch { }
+    }
+
     public static void SendPlayerAction(string action, Vector3 pos,float rote_y) //文字列を送信用ポートから送信先ポートに送信
     {
         try
@@ -114,7 +133,7 @@ public class Multicast : MonoBehaviour
             var userActionData = new PlayerActionData
             {
                 action = action,
-                room_id = 1,
+                room_id = PlayerData.Room_id,
                 user = PlayerData.PlayerName,
                 pos_x = pos.x,
                 pos_y = pos.y,
