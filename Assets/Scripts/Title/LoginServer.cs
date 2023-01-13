@@ -90,7 +90,7 @@ public class LoginServer : MonoBehaviour
         }
     }
     
-     private void OnApplicationQuit()
+     private void OnDestroy()
     {
         client.Close();
     }

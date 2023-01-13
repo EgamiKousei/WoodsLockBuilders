@@ -185,6 +185,7 @@ public class PlayerData : MonoBehaviour
             data = Rdata
         };
         var jsonstr = JsonUtility.ToJson(data3);
+        //マルチキャストで共有
         Debug.Log(jsonstr);
         wreiter.WriteLine(jsonstr);
         wreiter.Flush();

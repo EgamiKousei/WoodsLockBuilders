@@ -66,6 +66,7 @@ public class ActionManager : MonoBehaviour
                     Grid.SetActive(false);
                     Set.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
                     Break.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
+                    Script.GetComponent<PlayerData>().SaveRoom();
                     break;
                 case Player.Field:
                     playerScean = Player.Attack;
@@ -162,7 +163,6 @@ public class ActionManager : MonoBehaviour
                             i.invno = 0;
                             setItem.GetComponent<ItemSet>().SetItem();
                         }
-                        Script.GetComponent<PlayerData>().SaveRoom();
                     }
                 }
             }
@@ -184,7 +184,6 @@ public class ActionManager : MonoBehaviour
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
                             x.yr = rotationAngles.y;
                     }
-                    Script.GetComponent<PlayerData>().SaveRoom();
                 }
             }
         }
@@ -232,21 +231,10 @@ public class ActionManager : MonoBehaviour
             }
         }
         setItem.GetComponent<ItemSet>().SetItem();
-        /*if (name == "Box")
-        {
-            if (RoomSet.objNum == Int32.Parse(hit.transform.parent.name))
-                RoomSet.objNum--;
-            PlayerData.PlayMap.Remove(key: Int32.Parse(hit.transform.parent.name));
-            Destroy(hit.transform.parent.gameObject);
-        }
-        else
-        {*/
             if (RoomSet.objNum == Int32.Parse(hit.name))
                 RoomSet.objNum--;
             PlayerData.PlayMap.Remove(key: Int32.Parse(hit.name));
             Destroy(hit);
-        //}
-        Script.GetComponent<PlayerData>().SaveRoom();
     }
 
 
