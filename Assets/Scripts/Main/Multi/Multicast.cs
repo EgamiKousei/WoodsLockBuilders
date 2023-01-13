@@ -97,7 +97,7 @@ public class Multicast : MonoBehaviour
                         PlayerData.SetRoom(deserialized["data"].ToString(),PlayerData.RoomPash);
                         break;
                     default:
-                        var allUserActionHash = PlayerActionData.FromJson(deserialized, PlayerData.Room_id);
+                        var allUserActionHash = PlayerActionData.FromJson(deserialized);
                         PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
                         break;
                 }
@@ -116,7 +116,6 @@ public class Multicast : MonoBehaviour
             var userActionData = new RoomDataMulti
             {
                 action = "set",
-                room_id = PlayerData.Room_id,
                 data = data,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(userActionData.ToJson());
@@ -133,7 +132,6 @@ public class Multicast : MonoBehaviour
             var userActionData = new PlayerActionData
             {
                 action = action,
-                room_id = PlayerData.Room_id,
                 user = PlayerData.PlayerName,
                 pos_x = pos.x,
                 pos_y = pos.y,

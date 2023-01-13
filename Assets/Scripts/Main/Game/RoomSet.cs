@@ -35,5 +35,6 @@ public class RoomSet : MonoBehaviour
             if (objNum <= i.num)
                 objNum = i.num;
         }
+        RoomData = null;
     }
 }

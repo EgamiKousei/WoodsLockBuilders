@@ -8,9 +8,6 @@ public class PlayerActionData
     [JsonProperty("action")]
     public string action;
 
-    [JsonProperty("room_id")]
-    public string room_id;
-
     [JsonProperty("user")]
     public string user;
 
@@ -37,15 +34,10 @@ public class PlayerActionData
     }
 
     /// サーバーから送信してきたJSONデータを配列データに変換
-    public static Dictionary<string, PlayerActionData> FromJson(JObject jsonHash, string roomNo)
+    public static Dictionary<string, PlayerActionData> FromJson(JObject jsonHash)
     {
         // 戻り値のDictionaryの初期化
         var playerActionHash = new Dictionary<string, PlayerActionData>();
-
-        // jsonの中に該当のルーム番号の情報がなければ空のDictionaryを返却
-        //if (jsonHash["room_id"].ToString() .Equals(roomNo)) { }
-        //else
-        //    return playerActionHash;
 
         // ルームの中にユーザ情報が含まれているのでPlayerActionData型に変換
         var PlayerActionData = new PlayerActionData
@@ -69,44 +61,11 @@ public class RoomDataMulti
     [JsonProperty("action")]
     public string action;
 
-    [JsonProperty("room_id")]
-    public string room_id;
-
     [JsonProperty("data")]
     public string data;
-
-    /// クライアントからサーバへ送信するデータをJSON形式に変換
     public string ToJson()
     {
         // オブジェクトをjsonに変換
         return JsonConvert.SerializeObject(this, Formatting.None);
-    }
-
-    /// サーバーから送信してきたJSONデータを配列データに変換
-    public static Dictionary<string, PlayerActionData> FromJson(JObject jsonHash, int roomNo)
-    {
-        // 戻り値のDictionaryの初期化
-        var playerActionHash = new Dictionary<string, PlayerActionData>();
-
-        // jsonの中に該当のルーム番号の情報がなければ空のDictionaryを返却
-        if (Convert.ToInt32(jsonHash["room_id"]) != roomNo)
-        {
-            return playerActionHash;
-        }
-
-        // ルームの中にユーザ情報が含まれているのでPlayerActionData型に変換
-        var PlayerActionData = new PlayerActionData
-        {
-            user = jsonHash["user"].ToString(),
-            action = jsonHash["action"].ToString(),
-            pos_x = float.Parse(jsonHash["pos_x"].ToString()),
-            pos_y = float.Parse(jsonHash["pos_y"].ToString()),
-            pos_z = float.Parse(jsonHash["pos_z"].ToString()),
-            rote_y = float.Parse(jsonHash["rote_y"].ToString()),
-            color = jsonHash["color"].ToString(),
-        };
-        playerActionHash.Add(PlayerActionData.user, PlayerActionData);
-        return playerActionHash;
-
     }
 }
