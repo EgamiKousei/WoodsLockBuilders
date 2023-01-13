@@ -23,6 +23,10 @@ public class RoomSet : MonoBehaviour
     }
     private void SetRoom()
     {
+        foreach (Transform n in CreateMap.transform)
+        {
+            Destroy(n.gameObject);
+        }
         foreach (var i in PlayerData.PlayMap.Values)
         {
             itemObject = (GameObject)Resources.Load(i.name);
