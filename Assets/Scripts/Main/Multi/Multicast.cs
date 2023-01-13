@@ -97,6 +97,7 @@ public class Multicast : MonoBehaviour
                         PlayerData.SetRoom(deserialized["data"].ToString(),PlayerData.RoomPash);
                         break;
                     default:
+                        Debug.Log(deserialized["room"].ToString()+"ÅF"+ PlayerData.Room_id);
                         var allUserActionHash = PlayerActionData.FromJson(deserialized, PlayerData.Room_id);
                         PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
                         break;

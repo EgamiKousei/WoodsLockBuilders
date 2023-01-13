@@ -89,6 +89,7 @@ public class LoginServer : MonoBehaviour
             client.Connect(hostId.text, LoginClient.ClientPort);
             client.Send(sendBytes, sendBytes.Length);
             PlayerData.Room_id = hostId.text;
+            Debug.Log(PlayerData.Room_id);
             Debug.Log("ó‚¯æ‚è—v¿");
         }
     }
