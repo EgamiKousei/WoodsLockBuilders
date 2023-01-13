@@ -43,10 +43,9 @@ public class PlayerActionData
         var playerActionHash = new Dictionary<string, PlayerActionData>();
 
         // jsonの中に該当のルーム番号の情報がなければ空のDictionaryを返却
-        if (jsonHash["room_id"].ToString() != roomNo)
-        {
+        if (jsonHash["room_id"].ToString() .Equals(roomNo)) { }
+        else
             return playerActionHash;
-        }
 
         // ルームの中にユーザ情報が含まれているのでPlayerActionData型に変換
         var PlayerActionData = new PlayerActionData
