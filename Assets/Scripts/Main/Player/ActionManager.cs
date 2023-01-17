@@ -8,9 +8,10 @@ public class ActionManager : MonoBehaviour
     int ItemNum=1;
     private Animator _animator;
     public static int attackParamHash;
-    public GameObject mainCamera, gridCamera,Grid,pivot, CreateMap,Script;
+    public GameObject mainCamera, gridCamera,Grid,pivot, CreateMap,Script,CreateItem;
     GameObject itemObject=null,itemNow;
     public Sprite nullItem;
+   public Button first;
 
     public enum Player
     {
@@ -62,8 +63,11 @@ public class ActionManager : MonoBehaviour
                     playerScean = Player.Field;
                     ItemPanel.SetActive(false);
                     mainCamera.SetActive(true);
+                    CreateItem.SetActive(true);
                     gridCamera.SetActive(false);
                     Grid.SetActive(false);
+                    //É{É^ÉìÇ™ëIëÇ≥ÇÍÇΩèÛë‘Ç…Ç»ÇÈ
+                    first.Select();
                     Set.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
                     Break.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
                     Script.GetComponent<PlayerData>().SaveRoom();
@@ -72,6 +76,7 @@ public class ActionManager : MonoBehaviour
                     playerScean = Player.Attack;
                     Break.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
                     Attack.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
+                    CreateItem.SetActive(false);
                     break;
             }
         }

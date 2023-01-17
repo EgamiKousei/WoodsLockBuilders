@@ -1,0 +1,12 @@
+using UnityEngine;
+
+namespace ScrollUI
+{
+    class Node : MonoBehaviour
+    {
+        /// <summary>
+        /// NodeÇÃIndexî‘çÜ
+        /// </summary>
+        public int NodeNumber { get { return transform.GetSiblingIndex(); } }
+    }
+}

@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Multicast : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Multicast : MonoBehaviour
 
     private string add;
     private Thread rcvThread; //受信用スレッド
+
+    public Text ipid;
     void Awake()
     {
         // ホスト名からIPアドレスを取得する
@@ -64,6 +67,12 @@ public class Multicast : MonoBehaviour
     private void Start()
     {
         SendPlayerAction("login",new Vector3(0f,0f,-20f), 0.0f);
+        ipid.text = "ルームID : " + add;
+    }
+
+    public void Copy()
+    {
+        GUIUtility.systemCopyBuffer = add;
     }
 
     private void MulticastOptionProperties()
@@ -94,10 +103,11 @@ public class Multicast : MonoBehaviour
                 switch (deserialized["action"].ToString())
                 {
                     case "set":
-                        PlayerData.SetRoom(deserialized["data"].ToString(),PlayerData.RoomPash);
+                        if (Convert.ToInt32(deserialized["room_id"]) == PlayerData.room_id)
+                            PlayerData.SetRoom(deserialized["data"].ToString(),PlayerData.RoomPash);
                         break;
                     default:
-                        var allUserActionHash = PlayerActionData.FromJson(deserialized);
+                        var allUserActionHash = PlayerActionData.FromJson(deserialized, PlayerData.room_id);
                         PlayerMulti.recieveCompletedHandler?.Invoke(allUserActionHash);
                         break;
                 }
@@ -117,6 +127,7 @@ public class Multicast : MonoBehaviour
             {
                 action = "set",
                 data = data,
+                room_id=PlayerData.room_id,
             };
             byte[] sendBytes = Encoding.UTF8.GetBytes(userActionData.ToJson());
             IPEndPoint ClientOriginatordest = new IPEndPoint(mcastAddress, mcastPort);
@@ -132,6 +143,7 @@ public class Multicast : MonoBehaviour
             var userActionData = new PlayerActionData
             {
                 action = action,
+                room_id=PlayerData.room_id,
                 user = PlayerData.PlayerName,
                 pos_x = pos.x,
                 pos_y = pos.y,

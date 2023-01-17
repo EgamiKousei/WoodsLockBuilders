@@ -18,6 +18,8 @@ public class itemData
     public int bagnum;
     public int invno;
     public int bagno;
+    public int create;
+    public int num;
 }
 
 [System.Serializable]
@@ -69,7 +71,7 @@ public class PlayerData : MonoBehaviour
 
     //アイテム基本データ　アイテム名:アイテム名/説明/耐久/攻撃力/材料名1/材料名2/必要数1/必要数2
 
-   public static string Room_id;
+   public static int room_id=1;
 
     private void Awake()
     {
@@ -106,8 +108,6 @@ public class PlayerData : MonoBehaviour
 
     public void Start()
     {
-        if (Room_id == null)
-            Room_id = "test";
         if (NameList.Count==0)
             RoomPash = Application.dataPath + "/PlayRoomData.json";
         else

@@ -8,6 +8,9 @@ public class PlayerActionData
     [JsonProperty("action")]
     public string action;
 
+    [JsonProperty("room_id")]
+    public int room_id;
+
     [JsonProperty("user")]
     public string user;
 
@@ -34,10 +37,15 @@ public class PlayerActionData
     }
 
     /// サーバーから送信してきたJSONデータを配列データに変換
-    public static Dictionary<string, PlayerActionData> FromJson(JObject jsonHash)
+    public static Dictionary<string, PlayerActionData> FromJson(JObject jsonHash,int roomNo)
     {
         // 戻り値のDictionaryの初期化
         var playerActionHash = new Dictionary<string, PlayerActionData>();
+
+        if (Convert.ToInt32(jsonHash["room_id"]) != roomNo)
+        {
+            return playerActionHash;
+        }
 
         // ルームの中にユーザ情報が含まれているのでPlayerActionData型に変換
         var PlayerActionData = new PlayerActionData
@@ -60,6 +68,9 @@ public class RoomDataMulti
 {
     [JsonProperty("action")]
     public string action;
+
+    [JsonProperty("room_id")]
+    public int room_id;
 
     [JsonProperty("data")]
     public string data;

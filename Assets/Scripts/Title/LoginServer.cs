@@ -63,9 +63,6 @@ public class LoginServer : MonoBehaviour
             wreiter.WriteLine(datastr);
             wreiter.Flush();
             wreiter.Close();
-
-            PlayerData.Room_id = ipAd;
-            Debug.Log(PlayerData.Room_id);
         }
     }
 
@@ -88,8 +85,6 @@ public class LoginServer : MonoBehaviour
             byte[] sendBytes = Encoding.UTF8.GetBytes(titleData.ToJson());
             client.Connect(hostId.text, LoginClient.ClientPort);
             client.Send(sendBytes, sendBytes.Length);
-            PlayerData.Room_id = hostId.text;
-            Debug.Log(PlayerData.Room_id);
             Debug.Log("éÛÇØéÊÇËóvêø");
         }
     }
