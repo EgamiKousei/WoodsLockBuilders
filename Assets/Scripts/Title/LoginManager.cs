@@ -22,8 +22,9 @@ public class LoginManager : MonoBehaviour
     bool DoorPushed = false;
     float posZ = 0.1f;//ˆÚ“®‘¬“x
     int CurrentBlock = 1;
+    bool logoflug=true;
 
-    public GameObject Rogin;
+    public GameObject Rogin,LoginPanel,LogoPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,12 @@ public class LoginManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && logoflug == true)
+        {
+            LoginPanel.SetActive(true);
+            LogoPanel.SetActive(false);
+            logoflug = false;
+        }
         PushDoor();
     }
     private void FixedUpdate()

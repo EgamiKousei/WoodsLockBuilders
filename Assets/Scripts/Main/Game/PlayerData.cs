@@ -69,8 +69,6 @@ public class PlayerData : MonoBehaviour
     //アイテムデータ　アイテム名:アイテム名/種類/所有数(インベントリ)/配置場所/所有数(バッグ)
     public static Dictionary<string, itemData> ItemBox = new Dictionary<string, itemData>();
 
-    //アイテム基本データ　アイテム名:アイテム名/説明/耐久/攻撃力/材料名1/材料名2/必要数1/必要数2
-
    public static int room_id=1;
 
     private void Awake()
@@ -84,25 +82,32 @@ public class PlayerData : MonoBehaviour
         else
             RoomPash = Application.dataPath + "/SaveRoomData.json";
 
-        ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
-        foreach (var i in im.data)
+        if (ItemBox.Count == 0)
         {
-            if (i.name != "")
-                ItemBox.Add(i.name, i);
-            else
-                break;
+            ItemData im = LoadFile(ItemDataPash);        // jsonファイルロード
+            foreach (var i in im.data)
+            {
+                if (i.name != "")
+                    ItemBox.Add(i.name, i);
+                else
+                    break;
+            }
         }
         SaveData sv = LoadSaveFile(SavePash);        // jsonファイルロード
         var json = JsonConvert.SerializeObject(sv);
+        if(SaveData.Count==0)
         SaveData = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-        RoomData rm = LoadRoomFile(RoomPash);// jsonファイルロード
-        foreach (var i in rm.data)
+        if (PlayMap.Count == 0)
         {
-            if (i.name != "")
-                PlayMap.Add(i.num, i);
-            else
-                break;
+            RoomData rm = LoadRoomFile(RoomPash);// jsonファイルロード
+            foreach (var i in rm.data)
+            {
+                if (i.name != "")
+                    PlayMap.Add(i.num, i);
+                else
+                    break;
+            }
         }
     }
 

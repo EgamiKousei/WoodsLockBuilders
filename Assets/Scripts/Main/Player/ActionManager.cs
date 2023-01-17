@@ -26,7 +26,7 @@ public class ActionManager : MonoBehaviour
     private void Awake()
     {
         playerScean = Player.Attack;
-        Attack.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
+        Attack.GetComponent<RectTransform>().localScale = new Vector2(1.2f, 1.2f);
     }
 
     private void Start()
@@ -56,8 +56,8 @@ public class ActionManager : MonoBehaviour
                     gridCamera.SetActive(true);
                     Grid.SetActive(true);
                     pivot.transform.eulerAngles = Vector3.zero;
-                    Attack.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
-                    Set.GetComponent<RectTransform>().sizeDelta= new Vector2(60, 60);
+                    Attack.GetComponent<RectTransform>().localScale = new Vector2(1f, 1f);
+                    Set.GetComponent<RectTransform>().localScale= new Vector2(1.2f, 1.2f);
                     break;
                 case Player.Set:
                     playerScean = Player.Field;
@@ -68,19 +68,19 @@ public class ActionManager : MonoBehaviour
                     Grid.SetActive(false);
                     //É{É^ÉìÇ™ëIëÇ≥ÇÍÇΩèÛë‘Ç…Ç»ÇÈ
                     first.Select();
-                    Set.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
-                    Break.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
+                    Set.GetComponent<RectTransform>().localScale = new Vector2(1f, 1f);
+                    Break.GetComponent<RectTransform>().localScale = new Vector2(1.2f, 1.2f);
                     Script.GetComponent<PlayerData>().SaveRoom();
                     break;
                 case Player.Field:
                     playerScean = Player.Attack;
-                    Break.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
-                    Attack.GetComponent<RectTransform>().sizeDelta = new Vector2(60, 60);
+                    Break.GetComponent<RectTransform>().localScale = new Vector2(1f, 1f);
+                    Attack.GetComponent<RectTransform>().localScale = new Vector2(1.2f, 1.2f);
                     CreateItem.SetActive(false);
                     break;
             }
         }
-        if (playerScean==Player.Attack)
+        /*if (playerScean==Player.Attack)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -88,7 +88,7 @@ public class ActionManager : MonoBehaviour
                 Multicast.SendPlayerAction("Attack", transform.position, transform.rotation.y);
                 Invoke("AttackEnd", 0.45f);   
             }
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.F)&& playerScean==Player.Set)
         {
