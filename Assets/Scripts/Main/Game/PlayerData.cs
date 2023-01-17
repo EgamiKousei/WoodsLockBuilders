@@ -12,14 +12,14 @@ public class ItemData
 [System.Serializable]
 public class itemData
 {
-    public string name;
-    public string category;
-    public int invnum;
-    public int bagnum;
-    public int invno;
-    public int bagno;
-    public int create;
-    public int num;
+    public string name;　　　//アイテム名
+    public string category;　//種別
+    public int invnum;　　　 //所有数(インベントリ)
+    public int bagnum;　　　 //所有数(アイテムバッグ)
+    public int invno;　　　　//配置場所(インベントリ)
+    public int bagno;　　　　//配置場所(アイテムバッグ)
+    public int create;　　　 //制作に必要な材料
+    public int num;　　 　　 //材料の個数
 }
 
 [System.Serializable]
@@ -66,7 +66,7 @@ public class PlayerData : MonoBehaviour
     //プレイヤーデータ　HP/色
     public static Dictionary<string, string> SaveData = new Dictionary<string, string>();
 
-    //アイテムデータ　アイテム名:アイテム名/種類/所有数(インベントリ)/配置場所/所有数(バッグ)
+    //アイテムデータ　アイテム名:itemData
     public static Dictionary<string, itemData> ItemBox = new Dictionary<string, itemData>();
 
    public static int room_id=1;
