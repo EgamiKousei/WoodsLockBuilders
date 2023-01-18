@@ -20,6 +20,7 @@ TagManager:
   - Cauldron
   - Fence
   - OtherPlayer
+  - Wall
   layers:
   - Default
   - TransparentFX

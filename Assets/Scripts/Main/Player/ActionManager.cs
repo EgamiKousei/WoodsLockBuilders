@@ -179,6 +179,9 @@ public class ActionManager : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit))
             {
+                if (hit.collider.gameObject.tag != "Plane"&&hit.collider.gameObject.tag != "Player"
+                    && hit.collider.gameObject.tag != "OtherPlayer")
+                {
                     Vector3 rotationAngles = hit.collider.gameObject.transform.rotation.eulerAngles;
                     rotationAngles.y = rotationAngles.y + 90;
                     hit.collider.gameObject.transform.rotation = Quaternion.Euler(rotationAngles);
@@ -187,6 +190,7 @@ public class ActionManager : MonoBehaviour
                         if (x.num == Int32.Parse(hit.collider.gameObject.name))
                             x.yr = rotationAngles.y;
                     }
+                }
             }
         }
 
