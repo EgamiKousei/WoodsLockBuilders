@@ -7,11 +7,11 @@ public class PlayerManager : MonoBehaviour
     Transform _Transform;
 
     //移動速度の定義
-    float NomalSpeed = 400f;
-     float SprintSpeed = 800f;
+    float NomalSpeed = 600f;
+     float SprintSpeed = 1000f;
     float PlayerSpeed;
-    public static float Gravi=150f;
-    public static float JumpGravi = 100f;
+    public static float Gravi=200f;
+    public static float JumpGravi = 80f;
     private bool isJumping = false;
 
     Rigidbody rb;//リギッドボディ

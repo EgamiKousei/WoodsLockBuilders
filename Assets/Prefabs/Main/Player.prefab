@@ -1808,10 +1808,17 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   gridCamera: {fileID: 0}
   Grid: {fileID: 0}
+  pivot: {fileID: 0}
+  CreateMap: {fileID: 0}
+  Script: {fileID: 0}
+  CreateItem: {fileID: 0}
+  nullItem: {fileID: 0}
+  first: {fileID: 0}
   Attack: {fileID: 0}
   Set: {fileID: 0}
   Break: {fileID: 0}
   ItemPanel: {fileID: 0}
+  setItem: {fileID: 0}
 --- !u!1 &8285774345210975644
 GameObject:
   m_ObjectHideFlags: 0
