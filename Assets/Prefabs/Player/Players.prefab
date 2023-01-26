@@ -38152,10 +38152,9 @@ GameObject:
   - component: {fileID: 9094483402471636133}
   - component: {fileID: 9094483402481791221}
   - component: {fileID: 8010271616615392433}
-  - component: {fileID: 9094483402488124307}
-  - component: {fileID: 9094483402488034231}
   - component: {fileID: 9094483402477079935}
   - component: {fileID: 1049022485540177261}
+  - component: {fileID: 2577670741487095756}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -38197,7 +38196,7 @@ Animator:
   m_GameObject: {fileID: 9094483402476845301}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d9a1483b77bf10e4e851678ab6c2e54e, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_Controller: {fileID: 9100000, guid: b60dc9aa529b314489f628aa3b57c470, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -38249,38 +38248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec91a35d60aae43458c1e6e356413271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9094483402488124307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9094483402476845301}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9094483402488034231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9094483402476845301}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 3600
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 4
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.3
 --- !u!114 &9094483402477079935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38316,6 +38283,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.14
   m_Center: {x: 0, y: 0.12, z: 0}
+--- !u!114 &2577670741487095756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094483402476845301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ca5b360b290334d9e323a94e9c496f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9094483402713130663
 GameObject:
   m_ObjectHideFlags: 0
