@@ -135,14 +135,14 @@ public class PlayerMulti : MonoBehaviour
 
         //プレイヤーの色の設定
         var otherColor1 = playerTransform[name].Find("Body_08b").gameObject;
-        var otherColor2 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
-        var otherColor3 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand/L_shield_container/shield_12").gameObject;
+        //var otherColor2 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER/Head_08b").gameObject;
+        //var otherColor3 = playerTransform[name].Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand/L_shield_container/shield_12").gameObject;
         float r = (Convert.ToInt32(color, 16) >> 16) & 0xff;
         float g = (Convert.ToInt32(color, 16) >> 8) & 0xff;
         float b = Convert.ToInt32(color, 16) & 0xff;
         otherColor1.GetComponent<SkinnedMeshRenderer>().materials[1].color = new Color(r / 255, g / 255, b / 255);
-        otherColor2.GetComponent<MeshRenderer>().materials[1].color = new Color(r / 255, g / 255, b / 255);
-        otherColor3.GetComponent<MeshRenderer>().materials[1].color = new Color(r / 255, g / 255, b / 255);
+        //otherColor2.GetComponent<MeshRenderer>().materials[1].color = new Color(r / 255, g / 255, b / 255);
+        //otherColor3.GetComponent<MeshRenderer>().materials[1].color = new Color(r / 255, g / 255, b / 255);
         return player;
     }
 
