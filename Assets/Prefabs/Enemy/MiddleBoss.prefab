@@ -83,6 +83,7 @@ MonoBehaviour:
   circleEffect: {fileID: 3222226704039260410}
   lineEffect: {fileID: 0}
   fanEffect: {fileID: 0}
+  rotateEffect: {fileID: 0}
   kindEnemy: 1
   hp: 100
   atc: 0
@@ -93,6 +94,7 @@ MonoBehaviour:
   isSwitch: 0
   isDes: 0
   isTarget: 0
+  animator: {fileID: 2479014891657943581}
 --- !u!195 &-6070516235608845708
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -129,7 +131,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!135 &-1049819404680852280
 SphereCollider:
@@ -235,6 +237,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7484412530202717185}
     m_Modifications:
+    - target: {fileID: 1844947760831062313, guid: c146022b9c200954d93294c6f65d2dd2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1844947760831062313, guid: c146022b9c200954d93294c6f65d2dd2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.69
+      objectReference: {fileID: 0}
     - target: {fileID: 3583244567102225082, guid: c146022b9c200954d93294c6f65d2dd2,
         type: 3}
       propertyPath: m_IsActive
@@ -416,6 +428,12 @@ PrefabInstance:
 --- !u!4 &2479014890886063820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8753619234690991415, guid: e812c04705f47d645beb13e90ec0ff93,
+    type: 3}
+  m_PrefabInstance: {fileID: 6565158331896456187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2479014891657943581 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8753619234859170278, guid: e812c04705f47d645beb13e90ec0ff93,
     type: 3}
   m_PrefabInstance: {fileID: 6565158331896456187}
   m_PrefabAsset: {fileID: 0}

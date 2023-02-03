@@ -155,6 +155,8 @@ public class Nav : MonoBehaviour
 	public bool isHeal = false;// 回復うする際の判定
 	public bool cariggeAttack = false;
 
+	public Animator animator;  // アニメーターコンポーネント取得用
+
 	private void Awake()
 	{
 		datapath = Application.dataPath + "/Dash.json"; // ダッシュデータまでのパス
@@ -249,6 +251,7 @@ public class Nav : MonoBehaviour
 		rb.constraints = RigidbodyConstraints.FreezePositionY;
 
 		//Switch();					// ターゲット取得
+
 	}
 
 	// ダッシュデータロード関数
@@ -353,7 +356,24 @@ public class Nav : MonoBehaviour
 
 	void Update()
 	{
-		cartDist= Vector3.Distance(transform.position, Carigge.transform.position);
+		if (m_Agent.enabled == true && m_Agent.speed != 0)
+		{
+			animator.SetFloat("Run", 1);
+
+		}
+        else
+        {
+			animator.SetFloat("Run", 0);
+		}
+
+		/*
+		if(Input.GetKeyDown(KeyCode.Return))
+        {
+			animator.SetTrigger("Die");
+		}
+		*/
+
+		cartDist = Vector3.Distance(transform.position, Carigge.transform.position);
 
 		if(cartDist >= 50)
         {
@@ -397,7 +417,7 @@ public class Nav : MonoBehaviour
             }
 		}
 
-        if (hp <= 30 && StartHeal == false && Carigge.GetComponent<CariggeManager>().HaveFlower >= 1)
+        if (hp <= heal && StartHeal == false && Carigge.GetComponent<CariggeManager>().HaveFlower >= 1)
         {
 			isHeal = true;
         }
@@ -499,15 +519,23 @@ public class Nav : MonoBehaviour
 		}
 		*/
 
-		if(HandHaving == true)
-        {
-			if(aCnt >= 1 && isZone == false)
-            {
+		if (HandHaving == true)
+		{
+			if (aCnt >= 1 && isZone == false)
+			{
 				m_Agent.speed = 6.5f;
-            }
+			}
 			pTarget = 4;
 			m_Agent.SetDestination(Carigge.transform.position);
+			CanAttack = false;
 			//mainTarget = Carigge;
+		}
+		else if (HandHaving == false)
+		{
+			if (CanAttack == false)
+			{
+				Invoke("CanAttackTrue", 0.5f);
+			}
 		}
 
 		/*
@@ -614,6 +642,8 @@ public class Nav : MonoBehaviour
 			m_Agent.enabled = false;
 			boxCollider.enabled = false;
 			sphereCollider.enabled = false;
+			animator.SetTrigger("Die");
+			Invoke("Dead", 0.6f);
         }
 
 		/*
@@ -1123,10 +1153,15 @@ public class Nav : MonoBehaviour
 				if (CanAttack == true)
 				{
 					CanAttack = false;
+					animator.SetTrigger("Attack");
+					StartCoroutine("AtcAnim");
+					/*
+					CanAttack = false;
 					AttackHantei.SetActive(true);
 					woodAttack++;
 					Invoke("HanteiDel", 0.2f);
 					Invoke("CanAttackTrue", 0.5f);
+					*/
 				}
 
 				/*
@@ -1142,10 +1177,8 @@ public class Nav : MonoBehaviour
 				if (CanAttack == true)
 				{
 					CanAttack = false;
-					AttackHantei.SetActive(true);
-					woodAttack++;
-					Invoke("HanteiDel", 0.2f);
-					Invoke("CanAttackTrue", 0.5f);
+					animator.SetTrigger("Attack");
+					StartCoroutine("AtcAnim");
 				}
 			}
 
@@ -1154,10 +1187,8 @@ public class Nav : MonoBehaviour
 				if (CanAttack == true)
 				{
 					CanAttack = false;
-					AttackHantei.SetActive(true);
-					woodAttack++;
-					Invoke("HanteiDel", 0.2f);
-					Invoke("CanAttackTrue", 0.5f);
+					animator.SetTrigger("Attack");
+					StartCoroutine("AtcAnim");
 				}
 
 				/*
@@ -1214,10 +1245,8 @@ public class Nav : MonoBehaviour
 			if (CanAttack == true)
 			{
 				CanAttack = false;
-				AttackHantei.SetActive(true);
-				woodAttack++;
-				Invoke("HanteiDel", 0.2f);
-				Invoke("CanAttackTrue", 0.5f);
+				animator.SetTrigger("Attack");
+				StartCoroutine("AtcAnim");
 			}
 		}
 
@@ -1255,9 +1284,8 @@ public class Nav : MonoBehaviour
 			if (CanAttack == true)
 			{
 				CanAttack = false;
-				AttackHantei.SetActive(true);
-				Invoke("HanteiDel", 0.2f);
-				Invoke("CanAttackTrue", 0.5f);
+				animator.SetTrigger("Attack");
+				StartCoroutine("AtcAnim");
 				m_Agent.speed = 0;    // ナビメッシュエージェントを停止
 				transform.LookAt(other.gameObject.transform);
 				//Debug.Log("Attack!");
@@ -1295,10 +1323,8 @@ public class Nav : MonoBehaviour
 				if (CanAttack == true)
 				{
 					CanAttack = false;
-					AttackHantei.SetActive(true);
-					woodAttack++;
-					Invoke("HanteiDel", 0.2f);
-					Invoke("CanAttackTrue", 0.5f);
+					animator.SetTrigger("Attack");
+					StartCoroutine("AtcAnim");
 				}
 			}
 		}
@@ -1313,10 +1339,8 @@ public class Nav : MonoBehaviour
 			if (CanAttack == true)
 			{
 				CanAttack = false;
-				AttackHantei.SetActive(true);
-				woodAttack++;
-				Invoke("HanteiDel", 0.2f);
-				Invoke("CanAttackTrue", 0.5f);
+				animator.SetTrigger("Attack");
+				StartCoroutine("AtcAnim");
 			}
 			cariggeAttack = false;
 		}
@@ -1326,10 +1350,8 @@ public class Nav : MonoBehaviour
 			if (CanAttack == true)
 			{
 				CanAttack = false;
-				AttackHantei.SetActive(true);
-				woodAttack++;
-				Invoke("HanteiDel", 0.2f);
-				Invoke("CanAttackTrue", 0.5f);
+				animator.SetTrigger("Attack");
+				StartCoroutine("AtcAnim");
 			}
 		}
 
@@ -1485,4 +1507,138 @@ public class Nav : MonoBehaviour
 		CanHeal = true;
 	}
 
+	public void UpdateNpc()
+    {
+		npc = LoadNPC(datapath2);   // NPCデータロード
+
+		if(code == 1)
+        {
+			npc1.healHp = npc.healHp / npc.healCnt;
+			npc1.torch = npc.torch / npc.torchCnt;
+			if (npc1.point >= 1000)
+			{
+				if (npc1.lv != 3)
+				{
+					npc1.lv++;
+				}
+			}
+			SaveNPC1(npc1);
+        }
+		else if(code == 2)
+        {
+			npc2.healHp = npc.healHp / npc.healCnt;
+			npc2.torch = npc.torch / npc.torchCnt;
+			if (npc2.point >= 1000)
+			{
+				if (npc2.lv != 3)
+				{
+					npc2.lv++;
+				}
+			}
+			SaveNPC2(npc2);
+		}
+		else if(code == 3)
+        {
+			npc3.healHp = npc.healHp / npc.healCnt;
+			npc3.torch = npc.torch / npc.torchCnt;
+			if (npc3.point >= 1000)
+			{
+				if (npc3.lv != 3)
+				{
+					npc3.lv++;
+				}
+			}
+			SaveNPC3(npc3);
+		}
+	}
+
+	public void GetPoint(string name)
+    {
+
+		if (code == 1)
+		{
+			if(name == "Enemy")
+            {
+				npc1.point += 10;
+            }
+			else if(name == "Wood")
+            {
+				npc1.point += 2;
+            }
+			else if(name == "Flower")
+            {
+				npc1.point += 5;
+			}
+			else if(name == "Metal")
+            {
+				npc1.point += 3;
+            }
+			else if(name == "Obstacle")
+            {
+				npc1.point += 7;
+            }
+		}
+		else if (code == 2)
+		{
+			if (name == "Enemy")
+			{
+				npc2.point += 10;
+			}
+			else if (name == "Wood")
+			{
+				npc2.point += 2;
+			}
+			else if (name == "Flower")
+			{
+				npc2.point += 5;
+			}
+			else if (name == "Metal")
+			{
+				npc2.point += 3;
+			}
+			else if (name == "Obstacle")
+			{
+				npc2.point += 7;
+			}
+		}
+		else if (code == 3)
+		{
+			if (name == "Enemy")
+			{
+				npc3.point += 10;
+			}
+			else if (name == "Wood")
+			{
+				npc3.point += 2;
+			}
+			else if (name == "Flower")
+			{
+				npc3.point += 5;
+			}
+			else if (name == "Metal")
+			{
+				npc3.point += 3;
+			}
+			else if (name == "Obstacle")
+			{
+				npc3.point += 7;
+			}
+		}
+	}
+
+	void Dead()
+    {
+		this.gameObject.SetActive(false);
+    }
+
+	public IEnumerator AtcAnim()
+	{
+		yield return new WaitForSeconds(0.3f);
+
+		AttackHantei.SetActive(true);
+		Invoke("HanteiDel", 0.2f);
+		Invoke("CanAttackTrue", 0.5f);
+
+	}
 }
+

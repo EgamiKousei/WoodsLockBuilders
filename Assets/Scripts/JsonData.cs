@@ -90,20 +90,3 @@ public class setData
     // HP‰ñ•œs“®Šî€’l
     public int healHp;
 }
-
-
-
-public class JsonData : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}

@@ -111,6 +111,8 @@ public class NpcManager : MonoBehaviour
 
         //ChangeEnemy();
 
+        GameObject.Find("GameManager").GetComponent<NpcManager>().Invoke("ActiveNav", 3f);
+
     }
 
     // NPCデータロード関数
@@ -131,105 +133,6 @@ public class NpcManager : MonoBehaviour
         wreiter.WriteLine(jsonstr);
         wreiter.Flush();
         wreiter.Close();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        // 敵出現時の処理
-        enemyObject = GameObject.FindGameObjectsWithTag("Enemy");
-        // アイテムオブジェクト取得
-        ItemObject = GameObject.FindGameObjectsWithTag("Item");
-        if (ItemObject.Length != 0 && isChange == true)
-        {
-            for (int i = 0; i < npcNum; i++)
-            {
-                targetObject[i] = npcObject[i].GetComponent<Nav>().mainTarget;
-                if (targetObject[i].GetComponent<ItemTarget>().isTarget == false)
-                {
-                    targetObject[i].GetComponent<ItemTarget>().isTarget = true;
-                    npcDis[i] = npcObject[i].GetComponent<Nav>().closeDist;
-                }
-                else
-                {
-                    if (npcObject[i].GetComponent<Nav>().lv == 1)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch();
-                    }
-                    else if (npcObject[i].GetComponent<Nav>().lv == 2)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch2();
-                    }
-                    else if (npcObject[i].GetComponent<Nav>().lv == 3)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch3();
-                    }
-                    targetObject[i] = npcObject[i].GetComponent<Nav>().mainTarget;
-                    targetObject[i].GetComponent<ItemTarget>().isTarget = true;
-                    npcDis[i] = npcObject[i].GetComponent<Nav>().closeDist;
-                    //i--;
-                }
-
-            }
-            isChange = false;
-        }
-
-        if (enemyObject.Length != 0 && isChange == true)
-        {
-            for (int i = 0; i < npcNum; i++)
-            {
-                targetObject[i] = npcObject[i].GetComponent<Nav>().mainTarget;
-                if (targetObject[i].GetComponent<Enemy>().isTarget == false)
-                {
-                    targetObject[i].GetComponent<Enemy>().isTarget = true;
-                    npcDis[i] = npcObject[i].GetComponent<Nav>().closeDist;
-                }
-                else
-                {
-                    if (npcObject[i].GetComponent<Nav>().lv == 1)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch();
-                    }
-                    else if (npcObject[i].GetComponent<Nav>().lv == 2)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch2();
-                    }
-                    else if (npcObject[i].GetComponent<Nav>().lv == 3)
-                    {
-                        npcObject[i].GetComponent<Nav>().Switch3();
-                    }
-                    targetObject[i] = npcObject[i].GetComponent<Nav>().mainTarget;
-                    targetObject[i].GetComponent<Enemy>().isTarget = true;
-                    npcDis[i] = npcObject[i].GetComponent<Nav>().closeDist;
-                    //i--;
-                }
-
-            }
-
-            //TargetEnemy();
-            isChange = false;
-        }
-        
-        
-        /*
-        // 配列内にそれぞれのNPCのターゲットを格納
-        for(int i = 0; i < npcNum; i++)
-        {
-            targetObject[npcObject[i].GetComponent<NpcCode>().npcNo] = npcObject[i].GetComponent<Nav>().mainTarget;
-            // ターゲットがトロッコだった場合
-            if(npcObject[i].GetComponent<Nav>().isSwitch == false && npcObject[i].GetComponent<Nav>().mainTarget.tag == "Target" && isTro == false)
-            {
-                isTro = true;
-                troNo = i;
-            }
-
-            // トロッコをターゲットとするNPCを1体に限定
-            if(isTro == true && troNo != i && npcObject[i].GetComponent<Nav>().mainTarget.tag == "Target")
-            {
-                npcObject[i].GetComponent<Nav>().Switch();
-            }
-        }*/
     }
 
     // いずれかのHPが変化した時の処理
@@ -343,6 +246,10 @@ public class NpcManager : MonoBehaviour
     {
         for (int i = 0; i < npcNum; i++)
         {
+            if(npcObject[i].GetComponent<Nav>().isObstacle == true)
+            {
+                npcObject[i].GetComponent<Nav>().GetPoint("Obstacle");
+            }
             npcObject[i].GetComponent<Nav>().isObstacle = false;
             npcObject[i].GetComponent<Nav>().Switch();
         }
@@ -368,5 +275,11 @@ public class NpcManager : MonoBehaviour
         {
             npcObject[i].GetComponent<Nav>().enabled = true;
         }
+    }
+
+    public void DataSave()
+    {
+        SaveNPC(npc);
+
     }
 }

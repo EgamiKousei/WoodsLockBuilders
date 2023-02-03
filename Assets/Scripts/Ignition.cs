@@ -27,6 +27,7 @@ public class Ignition : MonoBehaviour
     bool isNpcHit = false;  // Npc‚Éƒqƒbƒg‚µ‚Ä‚¢‚é‚©
     public GameObject Light;//directinallight
     NpcManager npcManager;
+    float saveTime;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,11 @@ public class Ignition : MonoBehaviour
         {
           FireMesh.SetActive(true);
           FireTimer += 1;
-          npcManager.HealFire(FireTimer);
+            if (saveTime >= 5)
+            {
+                npcManager.HealFire(FireTimer);
+                saveTime = 0;
+            }
           cariggeManager.WoodMinus();
           fireui.FireTimePlus();
           OnFire = true;

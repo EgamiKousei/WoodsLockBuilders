@@ -61,7 +61,8 @@ public class PlayerManager2 : MonoBehaviour
         if (Hp <=0)
         {
             //DeadEffect.SetActive(true);
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
+            Invoke("Dead", 0.6f);
         }
 
     }
@@ -169,5 +170,10 @@ public class PlayerManager2 : MonoBehaviour
         {
             Hp -= 3;
         }
+    }
+
+    void Dead()
+    {
+        this.gameObject.SetActive(false);
     }
 }

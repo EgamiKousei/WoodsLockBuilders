@@ -217,6 +217,7 @@ public class MetalForest : MonoBehaviour
         {
             npcObject.GetComponent<Nav>().HandHaving = false;
             npcObject.GetComponent<Nav>().m_Agent.speed = 6.5f;
+            npcObject.GetComponent<Nav>().GetPoint("Metal");
         }
         GameObject.Find("GameManager").GetComponent<NpcManager>().StartCoroutine("ChangeDelay");//Npcèàóù
         Destroy(this.gameObject);
