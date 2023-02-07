@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour
 		//nav = player.GetComponent<Nav>();	// Navスクリプト取得
 		rb = this.GetComponent<Rigidbody>(); //リジッドボディを取得
 		m_Agent = GetComponent<NavMeshAgent>(); // ナビメッシュエージェント取得
-		if (kindEnemy == 2)
+		if (kindEnemy == 0)
 		{
 			target = GameObject.FindGameObjectWithTag("Carigge");    // ターゲット取得
 		}
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
 		}
 		//m_Agent.SetDestination(m_Target[0].transform.position); // ターゲットを追跡
 
-		//nm = GameObject.Find("GameManager").GetComponent<NpcManager>();
+		nm = GameObject.Find("GameManager").GetComponent<NpcManager>();
 
 	}
 
