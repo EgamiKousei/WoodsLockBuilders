@@ -53,7 +53,8 @@ public class LoginClient : MonoBehaviour
                 PlayerData.NameList.Add(deserialized["data"].ToString());
                 string send = deserialized["ip"].ToString();
 
-                udpClient.Connect(IPAddress.Parse(send), ClientPort);
+                udpClient.Connect(ipEnd.Address, ClientPort);
+                //udpClient.Connect(IPAddress.Parse(send), ClientPort);
                 var titleData = new LoginData
                 {
                     action = "room",
