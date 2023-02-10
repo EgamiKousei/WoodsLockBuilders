@@ -62,9 +62,8 @@ public class LoginClient : MonoBehaviour
                     ip =LoginServer.ipAd,
                 };
                 byte[] sendBytes = Encoding.UTF8.GetBytes(titleData.ToJson());
-
                 udpClient.Send(sendBytes, sendBytes.Length);
-                Debug.Log("ƒ‹[ƒ€î•ñó‚¯“n‚µ");
+                Debug.Log("ƒ‹[ƒ€î•ñó‚¯“n‚µ"+ ipEnd.Address);
                 break;
             case "room":
                 Debug.Log("ƒ‹[ƒ€î•ñó‚¯æ‚è");
